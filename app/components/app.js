@@ -20,10 +20,10 @@ class App extends React.Component {
                     <div className="top-bar">
                         <div className="top-bar-left">
                             <ul className="dropdown menu" data-dropdown-menu>
-                                <li className="menu-text">Sàn Giao Dịch Kcoin</li>
-                                <li><NavLink  exact to="/" activeClassname="active">Homepage</NavLink></li>
+                                <li className="menu-text"><NavLink  exact to="/" activeClassname="active" >Sàn Giao Dịch Kcoin</NavLink></li>
+                                <li><NavLink  exact to="/" activeClassname="active" >Homepage</NavLink></li>
                                 <li>
-                                    <li><NavLink  to="/account" activeClassname="active">Wallet</NavLink></li>
+                                    <li><NavLink  to="/account" activeClassname="active" >Wallet</NavLink></li>
                                     <ul className="menu vertical">
                                         <li><NavLink  to="/account" activeClassname="active">Thông tin người dùng</NavLink></li>
                                         <li><NavLink  to="/account" activeClassname="active">Thông tin giao dịch</NavLink></li>
@@ -31,7 +31,7 @@ class App extends React.Component {
                                     </ul>
                                 </li>
                                 <li>
-                                    <li><NavLink  to="/transaction" activeClassname="active">BlockChain</NavLink></li>
+                                    <li><NavLink  to="/transaction" activeClassname="active" >BlockChain</NavLink></li>
                                     <ul className="menu vertical">
                                         <li><NavLink  to="/transaction" activeClassname="active">Transaction</NavLink></li>
                                         <li><NavLink  to="/transaction" activeClassname="active">Block</NavLink></li>
