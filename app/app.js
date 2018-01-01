@@ -9,14 +9,10 @@ var store = require("./store/index");
 var App=require('App');
 
 require('style!css!foundation-sites/dist/css/foundation.css');
-require('style!css!./css/style.css');
-require('style!css!./css/blockchain.css');
-require('style!css!./css/overrides.min.css');
-require('style!css!./css/bootstrap.min.css');
-require('script!./js/bootstrap.min');
-require('script!./js/homepage.min');
-require('script!./js/jquery.min');
-require('script!./js/navbar');
+require('style!css!./publics/css/style.css');
+require('style!css!./publics/css/bootstrap.min.css');
+//require('script!./publics/js/bootstrap.min');
+require('script!./publics/js/jquery-3.2.1.min');
 $(document).ready(() => $(document).foundation());
 
 

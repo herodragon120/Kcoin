@@ -8,19 +8,30 @@ class Nav extends React.Component{
             <div className="top-bar-left">
                 <ul className="dropdown menu" data-dropdown-menu>
                     <li className="menu-text">Sàn Giao Dịch Kcoin</li>
+                    <NavLink  exact to="/" >Home</NavLink>
                     <li>
+                        <NavLink  to="/account">Wallet</NavLink>
                         <ul className="menu vertical">
+                            <li><Link  to="/account" >Thông tin người dùng</Link></li>
+                            <li><Link  to="/account" >Thông tin giao dịch</Link></li>
+                            <li><Link  to="/account" >Các thông tin khác</Link></li>
                         </ul>
                     </li>
-                    <li><NavLink  exact to="/" activeClassName="active">Homepage</NavLink></li>
-                    <li><NavLink  to="/account" activeClassName="active">Account</NavLink></li>
-                    <li><NavLink  to="/transaction" activeClassName="active">Transaction</NavLink></li>
+                    <li>
+                        <NavLink  to="/transaction">BlockChain</NavLink>
+                        <ul className="menu vertical">
+                            <li><Link  to="/transaction" >Transaction</Link></li>
+                            <li><Link  to="/transaction" >Block</Link></li>
+                            <li><Link  to="/transaction" >Các thông tin khác</Link></li>
+                        </ul>
+                    </li>
+
                 </ul>
             </div>
             <div className="top-bar-right">
                 <ul className="menu">
-                    <li><input type="search" placeholder="Search"/></li>
-                    <li><button type="button" className="button">Search</button></li>
+                    <li><input type="text" className="search-bar" placeholder=""/></li>
+                    <li><button type="button" className="buttonWallet">Search</button></li>
                 </ul>
             </div>
         </div>

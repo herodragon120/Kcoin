@@ -10,25 +10,32 @@ class SignIn extends React.Component{
   }
   render(){
     return (
-      <div>
-          <h1 className="text-center page-title">Sign In</h1>
-        <form onSubmit={this.handleSubmit.bind(this)}>
-          <div className="row">
-            <div className="col-md-4 page-signin">
-              <div className="form-group">
-                <label>ID Wallet</label>
-                <input type="text" placeholder="Username" ref="username"/>
-              </div>
-              <div className="form-group">
-                <label>Password</label>
-                <input type="password" placeholder="Password" ref="password"/>
-              </div>
-              <button type="submit" className="button btSignIn">Sign In</button>
-              &nbsp; or <Link to="/account/signup" >Sign Up</Link> to use Kcoin
+      <div className="row">
+        <div className="col-md-4 page-signin">
+        <header className="header-1">
+          <hgroup>
+            <div className="page-title">
+              Chào Mừng Trở Lại
+              <span className="f-17">hoặc <Link to="/account/signup">Đăng ký</Link></span>
             </div>
+
+            <p>Đăng nhập vào ví của bạn bên dưới</p>
+          </hgroup>
+        </header>
+        <form onSubmit={this.handleSubmit.bind(this)}>
+            <div>
+              <div className="form-group">
+                <label>ID Ví</label>
+                <input type="text"  ref="username"/>
+              </div>
+              <div className="form-group">
+                <label>Mật khẩu</label>
+                <input type="password" ref="password"/>
+              </div>
+              <button type="submit" className="button btSignIn">Đăng nhập</button>
           </div>
         </form>
-
+      </div>
       </div>
     )
   }
