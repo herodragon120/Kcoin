@@ -1,0 +1,47 @@
+[
+	{
+		"_id" : ObjectId("5a17ef8231a50630a8137c54"),
+		"value" : 1004,
+		"name" : "123",
+		"password" : "202cb962ac59075b964b07152d234b70",
+		"username" : "123",
+		"history" : [ ],
+		"__v" : 0
+	},
+	{
+		"_id" : ObjectId("5a17f5f731a50630a8137c55"),
+		"value" : 1000,
+		"name" : "asfasf",
+		"password" : "81dc9bdb52d04dc20036dbd8313ed055",
+		"username" : "12314",
+		"history" : [ ],
+		"__v" : 0
+	},
+	{
+		"_id" : ObjectId("5a17f60b31a50630a8137c56"),
+		"value" : 1013,
+		"name" : "asf",
+		"password" : "c4ca4238a0b923820dcc509a6f75849b",
+		"username" : "1412344@student.hcmus.edu.vn",
+		"history" : [ ],
+		"__v" : 0
+	},
+	{
+		"_id" : ObjectId("5a1bcdb6514e3c3b30db5355"),
+		"value" : 811,
+		"name" : "Phan Nghĩa",
+		"password" : "c4ca4238a0b923820dcc509a6f75849b",
+		"username" : "1",
+		"history" : [ ],
+		"__v" : 0
+	},
+	{
+		"_id" : ObjectId("5a1bcde4514e3c3b30db536a"),
+		"value" : 1172,
+		"name" : "Phan Nghĩa",
+		"password" : "c4ca4238a0b923820dcc509a6f75849b",
+		"username" : "12",
+		"history" : [ ],
+		"__v" : 0
+	}
+]
