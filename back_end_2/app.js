@@ -2,7 +2,8 @@ var express = require('express'),
     session = require('express-session'),
     bodyParser = require('body-parser'),
     crypto = require('crypto'),
-    user_controller = require('./controllers/user_controller')
+    user_controller = require('./controllers/user_controller'),
+    admin_controller = require('./controllers/admin_controller')
 
 var app = express();
 app.use(bodyParser.json());
@@ -21,4 +22,5 @@ app.listen(5000,function () {
 });
 
 app.use(user_controller);
+app.use(admin_controller);
 
