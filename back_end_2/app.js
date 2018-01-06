@@ -1,6 +1,8 @@
 var express = require('express'),
     session = require('express-session'),
-    bodyParser = require('body-parser')
+    bodyParser = require('body-parser'),
+    crypto = require('crypto'),
+    user_controller = require('./controllers/user_controller')
 
 var app = express();
 app.use(bodyParser.json());
@@ -18,17 +20,5 @@ app.listen(5000,function () {
    console.log('Server is listening....');
 });
 
-app.post('/login',function (req,res) {
-    console.log(req.body);
-    if(req.body.user_name=='phuc' && req.body.password=='123'){
-        req.session.user_name = req.body.user_name;
-        return res.send('DANG_NHAP_THANH_CONG');
-    }
-    return res.send('DANG_NHAP_THAT_BAI');
-});
-
-app.get('/logout',function (req,res) {
-    req.session.user_name = undefined;
-    res.send('DA_DANG_XUAT');
-})
+app.use(user_controller);
 
