@@ -12,10 +12,18 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "crypto": "^1.0.1",
+    "es": "^0.6.0",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+    "http": "0.0.0",
+    "https": "^1.0.0",
+    "mongodb": "^2.2.33",
+    "mongoose": "^5.0.0-rc2",
     "mustache": "^2.3.0",
     "mysql": "^2.15.0",
-    "q": "^1.5.1"
+    "q": "^1.5.1",
+    "request": "^2.83.04red",
+    "util": "^0.10.3",
+    "ws": "^4.0.0"
   }
 }
