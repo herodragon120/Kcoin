@@ -7,6 +7,17 @@ var User=new Schema({
     confirm_code:String,
     public_key:String,
     private_key:String,
+    address: String,
     kcoin_num:Number
-});
-module.exports= mongoose.model('User',User);
+},{collection:'user'});
+
+function User(email, password, confirm_code, public_key, private_key, address, kcoin_num ) {
+    this.email = email;
+    this.password = password;
+    this.confirm_code = confirm_code;
+    this.public_key = public_key;
+    this.private_key = private_key;
+    this.address = address;
+    this.kcoin_num = kcoin_num;
+}
+module.exports= mongoose.model('user',User);

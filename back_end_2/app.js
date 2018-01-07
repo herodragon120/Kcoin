@@ -1,12 +1,15 @@
 var express = require('express'),
     session = require('express-session'),
+    passport = require('passport');
     bodyParser = require('body-parser'),
     mongoose=require('mongoose'),
     crypto = require('crypto'),
     https=require('https'),
     util=require('util');
 var Block = require ('./models/Block'),
+    userController=require('./controllers/user_controller'),
     blockController=require('./controllers/blockControllers')    ;
+
 
 
 mongoose.Promise=global.Promise;
@@ -14,6 +17,7 @@ mongoose.connect('mongodb://localhost/Kcoin',function (err) {
     if(err){console.log("connect error")}
 });
 var app = express();
+app.set('views','./views');
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Credentials', true);
     res.header('Access-Control-Allow-Origin', req.headers.origin);
@@ -35,13 +39,15 @@ app.use(session({
     saveUninitialized: true,
     cookie: {maxAge: 1000*60*60*24}
 }))
-
+app.use(passport.initialize());
+app.use(passport.session());
 app.listen(3000,function () {
    console.log('Server is listening....');
 });
 
 //app.use(user_controller);
 app.use('/block',blockController);
+app.use('/account',userController);
 const WebSocket = require('ws');
 
 const ws = new WebSocket('wss://api.kcoin.club/blocks');
