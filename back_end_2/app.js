@@ -13,7 +13,7 @@ var Block = require ('./models/Block'),
 
 
 mongoose.Promise=global.Promise;
-mongoose.connect('mongodb://localhost/Kcoin',function (err) {
+mongoose.connect('mongodb://localhost:27017/KCoin',function (err) {
     if(err){console.log("connect error")}
 });
 var app = express();
@@ -51,46 +51,87 @@ app.use('/account',userController);
 const WebSocket = require('ws');
 
 const ws = new WebSocket('wss://api.kcoin.club/blocks');
-    var url = 'https://api.kcoin.club/blocks';
-https.get(url, function(res){
-    var body = '';
 
-    res.on('data', function(chunk){
-        body += chunk;
-    });
+ws.onopen = function () {
+    setInterval(function () {
+        ws.send("") ;
+    },30000)
+};
 
-    res.on('end', function(){
-        var data = JSON.parse(body);
+ws.onmessage = function (data1) {
+    var dataNewBlock = JSON.parse(data1.data);
 
-    for(var i=0; i < data.length;i++){
+    if(dataNewBlock.type === "block")
+    {
+        console.log("có block mới");
         var newBlock = new Block();
-        newBlock.hash = data[i].hash;
-        newBlock.nonce = data[i].nonce;
-        newBlock.version = data[i].version;
-        newBlock.timestamp = data[i].timestamp;
-        newBlock.difficulty = data[i].difficulty;
-        newBlock.transactions = data[i].transactions;
-        newBlock.transactionsHash = data[i].transactionsHash;
-        newBlock.previousBlockHash = data[i].previousBlockHash;
-
-        Block.findOne({'hash' : newBlock.hash},function (err,result) {
-            if(result===null)
+        newBlock.hash = dataNewBlock.data.hash;
+        newBlock.nonce = dataNewBlock.data.nonce;
+        newBlock.version = dataNewBlock.data.version;
+        newBlock.timestamp = dataNewBlock.data.timestamp;
+        newBlock.difficulty = dataNewBlock.data.difficulty;
+        newBlock.transactions = dataNewBlock.data.transactions;
+        newBlock.transactionsHash = dataNewBlock.data.transactionsHash;
+        newBlock.previousBlockHash = dataNewBlock.data.previousBlockHash;
+        Block.findOne({hash: newBlock.hash}, function (err, result) {
+            if(result !== null)
             {
+                return( {code: 301, message: "Hash has been used"});
+            }
+            else {
                 newBlock.save(function (err) {
                     if(err){
                         return {code: 500, message: err};
                     } else {
                         return {code: 200, message: "Block add"}
                     }
-                })
+                });
             }
-            else
-            {
-                return( {code: 301, message: "Hash has been used"});
-            }
-        });
+        })
     }
-    });
-}).on('error', function(e){
-    console.log("Got an error: ", e);
-});
+
+
+};
+// var url = 'https://api.kcoin.club/blocks';
+// https.get(url, function(res){
+//     var body = '';
+//
+//     res.on('data', function(chunk){
+//         body += chunk;
+//     });
+//
+//     res.on('end', function(){
+//         var data = JSON.parse(body);
+//         data.forEach(function(DataItem){
+//             Block.findOne({hash:DataItem.hash},function (err,result) {
+//                 if(result === null)
+//                 {
+//                     var newBlock = new Block();
+//                     newBlock.hash = DataItem.hash;
+//                     newBlock.nonce = DataItem.nonce;
+//                     newBlock.version = DataItem.version;
+//                     newBlock.timestamp = DataItem.timestamp;
+//                     newBlock.difficulty = DataItem.difficulty;
+//                     newBlock.transactions = DataItem.transactions;
+//                     newBlock.transactionsHash = DataItem.transactionsHash;
+//                     newBlock.previousBlockHash = DataItem.previousBlockHash;
+//
+//                     newBlock.save(function (err) {
+//                         if(err){
+//                             return {code: 500, message: err};
+//                         } else {
+//                             return {code: 200, message: "Block add"}
+//                         }
+//                     })
+//                 }
+//                 else
+//                 {
+//                     return( {code: 301, message: "Hash has been used"});
+//                 }
+//             });
+//         });
+//         console.log("Hoàn thành")
+//     });
+// }).on('error', function(e){
+//     console.log("Got an error: ", e);
+// });

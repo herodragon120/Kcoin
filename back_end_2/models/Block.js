@@ -11,7 +11,7 @@ var Block = new Schema({
     transactionsHash: String,
     previousBlockHash:String
 }, {
-    collection: 'block'
+    collection: 'Block'
 });
 
 function Block(hash, nonce, version, timestamp, difficulty, transactions, transactionsHash,previousBlockHash ) {
@@ -25,6 +25,6 @@ function Block(hash, nonce, version, timestamp, difficulty, transactions, transa
     this.previousBlockHash = previousBlockHash;
 }
 
-var Block = mongoose.model('block',Block);
+var Block = mongoose.model('Block',Block);
 
 module.exports = Block;
