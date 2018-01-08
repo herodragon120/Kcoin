@@ -3,11 +3,11 @@ import {Link, NavLink} from 'react-router-dom';
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router';
 import {logoutRequest} from '../../actions/user_pages/logout'
-
+import './nav.css'
 class Nav extends React.Component{
     logOut(){
         this.props.logOut()
-        //this.props.history.push('/')
+        this.props.history.push('/')
     }
     render(){
         var xhtml = this.props.is_signin?

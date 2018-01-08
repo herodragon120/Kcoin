@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {signupRequest} from '../../../actions/user_pages/signup_page/signup_actions'
-import '../user.css'
+import {signupRequest} from '../../actions/user_pages/signup_page/signup_actions'
+import '../user_pages/user.css'
 class SignupForm extends React.Component{
     handleSubmit(e){
         e.preventDefault();

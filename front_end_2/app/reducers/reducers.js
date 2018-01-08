@@ -6,9 +6,12 @@ var kcoin_kd = require('./user_reducers/kcoin_kd');
 var block = require('./block');
 var err_mess = require('./err_mess');
 var user_transactions = require('./user_reducers/user_transactions');
+var detail_block = require('./detail_block')
 
 const reducer = redux.combineReducers({
-    is_signin,wallet,kcoin_tt,kcoin_kd,user_transactions,block,err_mess
+    is_signin, wallet, kcoin_tt, kcoin_kd,
+    user_transactions, block, err_mess,
+    detail_block
 });
 
 module.exports = reducer;

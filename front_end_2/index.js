@@ -84,6 +84,17 @@ app.get('/getblock',(req,res)=>{
     ],wallet:req.session.wallet})
 })
 
+app.get('/getblock/:id',(req,res)=>{
+    var catId = req.params.id
+    console.log(catId)
+    if(catId===1)
+        return res.send({detail:{index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"}})
+    if(catId===2)
+        return res.send({detail:{index:2,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"}})
+    return res.send({detail:{index:3,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"}})
+})
+
+
 
 
 

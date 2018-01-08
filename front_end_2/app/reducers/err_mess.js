@@ -23,7 +23,7 @@ var err_mess = (state = "", action) => {
             return ""
         }
         default:
-            return state;
+            return "";
     }
 };
 

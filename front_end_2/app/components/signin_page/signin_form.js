@@ -1,8 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux';
-import {signinRequest} from '../../../actions/user_pages/signin_page/signin_actions'
+import {signinRequest} from '../../actions/user_pages/signin_page/signin_actions'
 import {withRouter} from 'react-router'
-import '../user.css'
+import '../user_pages/user.css'
 class SigninForm extends React.Component{
     handleSubmit(e){
         e.preventDefault();

@@ -1,15 +1,22 @@
 import React from 'react';
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router'
+import {getDetailBlockRequest,getBlockRequest} from '../../actions/user_pages/home_page/home_actions'
 class Block extends React.Component{
+    handleClick(i) {
+        this.props.getDetailBlock(i)
+            .then(()=>{
+                this.props.history.push('/'+ i.toString())
+            })
+    }
     drawTable(){
         let rowListOfBoard=[];
         var {block}=this.props;
         for(let i =0; i < block.length; i++) {
-
             rowListOfBoard.push(
                 <tr key={i}>
                     <th scope="row" >{block[i].index}</th>
-                    <td>{block[i].hash}</td>
+                    <td><a href="#" onClick={() => this.handleClick(i)}>{block[i].hash}</a></td>
                     <td>{block[i].transactions}</td>
                     <td>{block[i].timestamp}</td>
                     <td>{block[i].difficulty}</td>
@@ -19,6 +26,9 @@ class Block extends React.Component{
             );
         }
         return rowListOfBoard;
+    }
+    componentWillMount(){
+        this.props.getBlock()
     }
     render(){
         return (
@@ -44,7 +54,12 @@ class Block extends React.Component{
     }
 }
 function mapStateToProps (state) {
-    return {block:state.block}
+    return {block:state.block,detail_block:state.detail_block}
 }
-
-module.exports= connect(mapStateToProps, null)(Block);
+function mapDispatchToProps (dispatch) {
+    return {
+        getDetailBlock: (id) => dispatch(getDetailBlockRequest(id)),
+        getBlock: () => dispatch(getBlockRequest())
+    }
+}
+module.exports= connect(mapStateToProps, mapDispatchToProps)(withRouter(Block));

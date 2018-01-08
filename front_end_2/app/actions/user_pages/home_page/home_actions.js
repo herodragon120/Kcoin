@@ -7,9 +7,19 @@ function getBlockRequest() {
         return axios.get('/getblock')
             .then(res=>{
                 dispatch(setBlockState(res.data.block))
-                console.log(res.data)
                 if(res.data.wallet!=null)
                     dispatch(signIn(res.data.wallet,"DANG_NHAP_THANH_CONG"))
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+    }
+}
+function getDetailBlockRequest(id) {
+    return (dispatch)=>{
+        return axios.get('/getblock/'+id.toString())
+            .then(res=>{
+                dispatch(setDetailBlockState(res.data.detail))
             })
             .catch(err=>{
                 console.log(err)
@@ -19,5 +29,8 @@ function getBlockRequest() {
 function setBlockState(block) {
     return {type:cst.SET_BLOCK,block}
 }
+function setDetailBlockState(detail) {
+    return {type:cst.DETAIL_BLOCK,detail}
+}
 
-module.exports = {getBlockRequest}
+module.exports = {getBlockRequest,getDetailBlockRequest}

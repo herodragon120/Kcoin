@@ -5,9 +5,10 @@ import {connect} from 'react-redux';
 import Block from '../block/block'
 import Footer from '../footer/footer'
 import {getBlockRequest} from '../../actions/user_pages/home_page/home_actions'
+
 class Home extends React.Component{
     componentDidMount(){
-        this.props.getBlock()
+        //this.props.getBlock()
     }
     render(){
         return(

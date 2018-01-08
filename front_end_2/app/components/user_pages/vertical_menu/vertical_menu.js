@@ -6,7 +6,7 @@ class VerticalMenu extends React.Component{
         return(
             <ul className="nav nav-pills nav-stacked nav-pills-stacked-example">
                 <li role="presentation" className="active">
-                    <Link to="/">HOME</Link>
+                    <a>HOME</a>
                 </li>
                 <li role="presentation">
                     <Link to="/user/info">Giao dịch</Link>
