@@ -1,4 +1,4 @@
-import cst from '../constants/constants'
+import cst from '../../constants/constants'
 
 var is_signin = (state = false, action) => {
     switch(action.type){

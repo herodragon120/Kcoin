@@ -6,11 +6,14 @@ import {withRouter} from 'react-router'
 class Info extends React.Component{
 
     componentDidMount(){
-        this.props.getInfo()
+        this.props.getInfo().then(()=>{
+            console.log(this.props.wallet)
+        })
+        // if(this.props.wallet==null)
+        //     this.props.history.push('/')
     }
     render(){
-        if(this.props.wallet==null)
-            this.props.history.push('/')
+
         return(
             <div>
                 <h4>Ví của bạn: {this.props.wallet}</h4>

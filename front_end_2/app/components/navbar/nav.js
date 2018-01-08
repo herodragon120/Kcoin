@@ -19,6 +19,9 @@ class Nav extends React.Component{
                 <li><Link to="/user/signup"><span className="glyphicon glyphicon-user"></span> Đăng Ký</Link></li>
                 <li><Link to="/user/signin"><span className="glyphicon glyphicon-log-in"></span> Đăng Nhập</Link></li>
             </ul>
+        var xhtml2 = this.props.is_signin?
+            <li><Link to="/user/info">Quản lý tài khoản</Link></li>
+            :null
         return(
             <nav className="navbar navbar-inverse">
                 <div className="container-fluid">
@@ -28,6 +31,7 @@ class Nav extends React.Component{
                     <ul className="nav navbar-nav">
                         <li><Link to="/">Trang Chủ</Link></li>
                         <li><Link to="/">Thông Tin</Link></li>
+                        {xhtml2}
                     </ul>
                     {xhtml}
                 </div>

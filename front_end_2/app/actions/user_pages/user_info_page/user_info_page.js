@@ -8,7 +8,7 @@ function getInfoRequest() {
             .then(res=>{
                 console.log(res)
                 dispatch(getInfo(res.data.kcoin_tt,res.data.kcoin_kd,res.data.user_transactions))
-                dispatch(signIn(res.data.wallet))
+                dispatch(signIn(res.data.wallet,"DANG_NHAP_THANH_CONG"))
             })
             .catch(err=>{
                 console.log(err)

@@ -3,22 +3,28 @@ import axios from 'axios'
 
 function signinRequest(wallet,pass) {
     return (dispatch)=>{
-        return axios.post('/signin',{wallet:wallet.value,pass:pass.value})
+        return axios.post('/signin',{wallet:wallet.value,password:pass.value})
             .then(res=>{
-                if(res.data.mess == 'DANG_NHAP_THANH_CONG')
-                    dispatch(signIn(res.data.wallet))
-                else{
-                    alert('Thông tin không đúng')
-                }
+                // if(res.data.message == 'DANG_NHAP_THANH_CONG'){
+                //     dispatch(signIn(res.data.wallet))
+                //     return "kkkkkkkkkkkkkk"
+                // }
+                // else{
+                //     return "saiiiiiiiiiiiiiiiii"
+                // }
+                dispatch(signIn(res.data.wallet,res.data.message))
             })
             .catch(err=>{
                 console.log(err)
             })
     }
 }
-
-function signIn(wallet) {
-    return {type:cst.SIGN_IN,is_signin:true,wallet}
+function signIn(wallet,mess) {
+    if(mess == 'DANG_NHAP_THANH_CONG')
+        return {type:cst.SIGN_IN,is_signin:true,wallet,mess}
+    else{
+        return {type:cst.SIGN_IN,is_signin:false,wallet,mess}
+    }
 }
 
 module.exports = {signinRequest,signIn}

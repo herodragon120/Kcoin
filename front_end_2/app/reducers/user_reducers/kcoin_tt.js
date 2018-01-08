@@ -1,4 +1,4 @@
-import cst from '../constants/constants'
+import cst from '../../constants/constants'
 
 var kcoin_tt = (state = null, action) => {
     switch(action.type){

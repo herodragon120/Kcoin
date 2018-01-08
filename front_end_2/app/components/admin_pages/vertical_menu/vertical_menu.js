@@ -9,16 +9,16 @@ class VerticalMenu extends React.Component{
                     <Link to="/">HOME</Link>
                 </li>
                 <li role="presentation">
-                    <Link to="/user/info">Giao dịch</Link>
+                    <Link to="/user/info">Thống kê hệ thống</Link>
                 </li>
                 <li role="presentation">
-                    <Link to="/user/sendmoney">Chuyển tiền</Link>
+                    <Link to="/user/sendmoney">Quản lý tài khoản</Link>
                 </li>
                 <li role="presentation">
-                    <Link to="/user/receivemoney">Nhận tiền</Link>
+                    <Link to="/user/receivemoney">Quản lý giao dịch</Link>
                 </li>
                 <li role="presentation">
-                    <Link to="/user/rechargemoney">Nạp tiền</Link>
+                    <Link to="/user/rechargemoney">Quản lý địa chỉ</Link>
                 </li>
             </ul>
         )

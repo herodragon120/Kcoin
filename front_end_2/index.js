@@ -29,14 +29,25 @@ app.post('/signin',(req,res)=>{
     console.log(wallet);
     if(wallet=="phuc@123"){
         req.session.wallet=wallet;
-        return res.send({mess:'DANG_NHAP_THANH_CONG',wallet:wallet});
+        return res.send({message:'DANG_NHAP_THANH_CONG',wallet:wallet});
     }
-    res.send({mess:'DANG_NHAP_THAT_BAI'})
+    res.send({message:'TAI_KHOAN_KHONG_DUNG',wallet:null})
 })
-
+app.post('/signup',(req,res)=>{
+    var email = req.body.email
+    console.log(req.body)
+    if(email=='1@1')
+        return res.send({message:'DANG_KY_THANH_CONG'})
+    if(email=='2@2')
+        return res.send({message:'EMAIL_DA_SU_DUNG'})
+    if(email=='3@3')
+        return res.send({message:'CHUA_NHAP_THONG_TIN'})
+    return res.send({message:'MAT_KHAU_KHONG_DUNG'})
+})
 app.get('/logout',(req,res)=>{
     req.session.wallet = null;
     return res.send({mess:'DANG_XUAT_THANH_CONG'})
+
 })
 //ham lay thong tin nguoi dung gồm: ví, số dư thực tế,khả dụng,là lịch sử giao dịch của người dùng
 app.get('/getinfo',(req,res)=>{
@@ -51,6 +62,26 @@ app.get('/getnewblock',(req,res)=>{
 //lay tất cả các block
 app.get('/getallblock',(req,res)=>{
     return res.send('')
+})
+
+app.get('/getblock',(req,res)=>{
+    res.send({block:[
+        {index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"},
+        {index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"},
+        {index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"},
+        {index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"},
+        {index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"},
+        {index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"},
+        {index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"},
+        {index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"},
+        {index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"},
+        {index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"},
+        {index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"},
+        {index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"},
+        {index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"},
+        {index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"},
+        {index:1,hash:"sksfksjdf",nonce:"ksfjskdjf",timestamp:"1/1/2000",difficulty:"2",version:"1.0.0",transactions:"2"},
+    ],wallet:req.session.wallet})
 })
 
 
