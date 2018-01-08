@@ -9,6 +9,8 @@ class Info extends React.Component{
         this.props.getInfo()
     }
     render(){
+        if(this.props.wallet==null)
+            this.props.history.push('/')
         return(
             <div>
                 <h4>Ví của bạn: {this.props.wallet}</h4>

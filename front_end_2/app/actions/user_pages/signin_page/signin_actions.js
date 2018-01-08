@@ -18,7 +18,7 @@ function signinRequest(wallet,pass) {
 }
 
 function signIn(wallet) {
-    return {type:cst.SIGN_IN,wallet}
+    return {type:cst.SIGN_IN,is_signin:true,wallet}
 }
 
-module.exports = {signinRequest}
+module.exports = {signinRequest,signIn}

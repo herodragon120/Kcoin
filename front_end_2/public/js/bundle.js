@@ -813,7 +813,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 var constants = {
     SIGN_IN: "SIGN_IN",
-    GET_INFO: "GET_INFO"
+    GET_INFO: "GET_INFO",
+    LOG_OUT: "LOG_OUT",
+    SET_BLOCK: "SET_BLOCK"
 };
 
 exports.default = constants;
@@ -2870,6 +2872,7 @@ var Info = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            if (this.props.wallet == null) this.props.history.push('/');
             return _react2.default.createElement(
                 'div',
                 null,
@@ -5365,6 +5368,8 @@ var _constants = __webpack_require__(8);
 
 var _constants2 = _interopRequireDefault(_constants);
 
+var _signin_actions = __webpack_require__(139);
+
 var _axios = __webpack_require__(62);
 
 var _axios2 = _interopRequireDefault(_axios);
@@ -5376,6 +5381,7 @@ function getInfoRequest() {
         return _axios2.default.get('/getinfo').then(function (res) {
             console.log(res);
             dispatch(getInfo(res.data.kcoin_tt, res.data.kcoin_kd, res.data.user_transactions));
+            dispatch((0, _signin_actions.signIn)(res.data.wallet));
         }).catch(function (err) {
             console.log(err);
         });
@@ -28823,10 +28829,10 @@ function signinRequest(wallet, pass) {
 }
 
 function signIn(wallet) {
-    return { type: _constants2.default.SIGN_IN, wallet: wallet };
+    return { type: _constants2.default.SIGN_IN, is_signin: true, wallet: wallet };
 }
 
-module.exports = { signinRequest: signinRequest };
+module.exports = { signinRequest: signinRequest, signIn: signIn };
 
 /***/ }),
 /* 140 */
@@ -29888,6 +29894,12 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(11);
 
+var _reactRedux = __webpack_require__(4);
+
+var _reactRouter = __webpack_require__(68);
+
+var _logout = __webpack_require__(178);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29906,8 +29918,51 @@ var Nav = function (_React$Component) {
     }
 
     _createClass(Nav, [{
+        key: 'logOut',
+        value: function logOut() {
+            this.props.logOut();
+            //this.props.history.push('/')
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var xhtml = this.props.is_signin ? _react2.default.createElement(
+                'ul',
+                { className: 'nav navbar-nav navbar-right' },
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        'a',
+                        { href: '#', onClick: this.logOut.bind(this) },
+                        _react2.default.createElement('span', { className: 'glyphicon glyphicon-log-out' }),
+                        ' \u0110\u0103ng Xu\u1EA5t'
+                    )
+                )
+            ) : _react2.default.createElement(
+                'ul',
+                { className: 'nav navbar-nav navbar-right' },
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { to: '/user/signup' },
+                        _react2.default.createElement('span', { className: 'glyphicon glyphicon-user' }),
+                        ' \u0110\u0103ng K\xFD'
+                    )
+                ),
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { to: '/user/signin' },
+                        _react2.default.createElement('span', { className: 'glyphicon glyphicon-log-in' }),
+                        ' \u0110\u0103ng Nh\u1EADp'
+                    )
+                )
+            );
             return _react2.default.createElement(
                 'nav',
                 { className: 'navbar navbar-inverse' },
@@ -29945,30 +30000,7 @@ var Nav = function (_React$Component) {
                             )
                         )
                     ),
-                    _react2.default.createElement(
-                        'ul',
-                        { className: 'nav navbar-nav navbar-right' },
-                        _react2.default.createElement(
-                            'li',
-                            null,
-                            _react2.default.createElement(
-                                _reactRouterDom.Link,
-                                { to: '/user/signup' },
-                                _react2.default.createElement('span', { className: 'glyphicon glyphicon-user' }),
-                                ' \u0110\u0103ng K\xFD'
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'li',
-                            null,
-                            _react2.default.createElement(
-                                _reactRouterDom.Link,
-                                { to: '/user/signin' },
-                                _react2.default.createElement('span', { className: 'glyphicon glyphicon-log-in' }),
-                                ' \u0110\u0103ng Nh\u1EADp'
-                            )
-                        )
-                    )
+                    xhtml
                 )
             );
         }
@@ -29977,7 +30009,19 @@ var Nav = function (_React$Component) {
     return Nav;
 }(_react2.default.Component);
 
-module.exports = Nav;
+function mapStateToProps(state) {
+    return { is_signin: state.is_signin };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        logOut: function logOut() {
+            return dispatch((0, _logout.logoutRequest)());
+        }
+    };
+}
+
+module.exports = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)((0, _reactRouter.withRouter)(Nav));
 
 /***/ }),
 /* 161 */
@@ -30116,7 +30160,7 @@ var TransactionTable = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                     'table',
-                    { 'class': 'table table-hover' },
+                    { className: 'table table-hover' },
                     _react2.default.createElement(
                         'thead',
                         null,
@@ -30162,7 +30206,6 @@ var TransactionTable = function (_React$Component) {
                         _react2.default.createElement(
                             'tr',
                             null,
-                            ' ',
                             _react2.default.createElement(
                                 'th',
                                 { scope: 'row' },
@@ -30800,10 +30843,11 @@ var is_signin = __webpack_require__(172);
 var wallet = __webpack_require__(173);
 var kcoin_tt = __webpack_require__(174);
 var kcoin_kd = __webpack_require__(175);
+var block = __webpack_require__(177);
 var user_transactions = __webpack_require__(176);
 
 var reducer = redux.combineReducers({
-    is_signin: is_signin, wallet: wallet, kcoin_tt: kcoin_tt, kcoin_kd: kcoin_kd, user_transactions: user_transactions
+    is_signin: is_signin, wallet: wallet, kcoin_tt: kcoin_tt, kcoin_kd: kcoin_kd, user_transactions: user_transactions, block: block
 });
 
 module.exports = reducer;
@@ -30827,7 +30871,9 @@ var is_signin = function is_signin() {
 
     switch (action.type) {
         case _constants2.default.SIGN_IN:
-            return !state;
+            return action.is_signin;
+        case _constants2.default.LOG_OUT:
+            return false;
         default:
             return state;
     }
@@ -30855,6 +30901,8 @@ var wallet = function wallet() {
     switch (action.type) {
         case _constants2.default.SIGN_IN:
             return action.wallet;
+        case _constants2.default.LOG_OUT:
+            return null;
         default:
             return state;
     }
@@ -30882,6 +30930,8 @@ var kcoin_tt = function kcoin_tt() {
     switch (action.type) {
         case _constants2.default.GET_INFO:
             return action.kcointt;
+        case _constants2.default.LOG_OUT:
+            return null;
         default:
             return state;
     }
@@ -30909,6 +30959,8 @@ var kcoin_kd = function kcoin_kd() {
     switch (action.type) {
         case _constants2.default.GET_INFO:
             return action.kcoinkd;
+        case _constants2.default.LOG_OUT:
+            return null;
         default:
             return state;
     }
@@ -30936,12 +30988,74 @@ var user_transactions = function user_transactions() {
     switch (action.type) {
         case _constants2.default.GET_INFO:
             return action.usertransactions;
+        case _constants2.default.LOG_OUT:
+            return null;
         default:
             return state;
     }
 };
 
 module.exports = user_transactions;
+
+/***/ }),
+/* 177 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _constants = __webpack_require__(8);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var is_signin = function is_signin() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _constants2.default.SET_BLOCK:
+            return action.block;
+        default:
+            return state;
+    }
+};
+
+module.exports = is_signin;
+
+/***/ }),
+/* 178 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _constants = __webpack_require__(8);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+var _axios = __webpack_require__(62);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function logoutRequest(wallet, pass) {
+    return function (dispatch) {
+        return _axios2.default.get('/logout').then(function (res) {
+            dispatch(logOut());
+        }).catch(function (err) {
+            console.log(err);
+        });
+    };
+}
+
+function logOut() {
+    return { type: _constants2.default.LOG_OUT };
+}
+
+module.exports = { logoutRequest: logoutRequest };
 
 /***/ })
 /******/ ]);

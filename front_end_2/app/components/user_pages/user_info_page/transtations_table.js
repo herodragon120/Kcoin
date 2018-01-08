@@ -5,7 +5,7 @@ class TransactionTable extends React.Component{
         return(
                 <div id="tran-panel">
                     <h2>Danh sách giao dịch</h2>
-                    <table class="table table-hover">
+                    <table className="table table-hover">
                         <thead>
                         <tr> <th>#</th>
                             <th>Ví gửi</th>
@@ -16,7 +16,8 @@ class TransactionTable extends React.Component{
                         </tr>
                         </thead>
                         <tbody>
-                        <tr> <th scope="row">1</th>
+                        <tr>
+                            <th scope="row">1</th>
                             <td>Mark</td>
                             <td>Otto</td>
                             <td>@mdo</td>
