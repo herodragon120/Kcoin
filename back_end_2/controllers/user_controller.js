@@ -1,5 +1,6 @@
 var express = require('express'),
     crypto = require('crypto'),
+    mongoose=require('mongoose')
     User=require('../models/User');
 const ursa = require('ursa');
 const _ = require('lodash');
@@ -45,11 +46,13 @@ r.post('/signup',function (req,res) {
                let publicKey = privateKey.toPublicPem();
                newuser.email=req.body.email;
                newuser.password=crypto.createHash('md5').update(req.body.password).digest('hex');
+               newuser.isAdmin=0;
                newuser.public_key=publicKey.toString('hex');
                newuser.private_key=privateKey.toPrivatePem('hex');
                newuser.address=hash(publicKey).toString('hex');
-               newuser.kcoin_num=0;
                newuser.confirm_code=0;
+               newuser.kcoin_tt=0;
+               newuser.kcoin_kd=0;
            };
            generateAddress();
 
@@ -61,23 +64,27 @@ r.post('/signup',function (req,res) {
                        if(err){
                            return res.send({code: 500, message: err}) ;
                        } else {
-                           transporter.use('compile',hbs({
-                               viewPath:'views',
-                               extName:'.hbs'
-                           }))
-                           transporter.sendMail({
-                               from:'kcoin2018@gmail.com',
-                               to: newuser.email,
-                               subject:'Hệ thống quản lý giao dịch Kcoin',
-                               template:'email',
-                               context:{
-                                   ten:newuser.address
-                               }
-                           },function (err) {
-                               if(err){console.log(err)}
-                               else
-                               {console.log('thanhcong')}
+                           User.findOne({'email' : newuser.email},function (err,result) {
+                               transporter.use('compile',hbs({
+                                   viewPath:'views',
+                                   extName:'.hbs'
+                               }))
+                               transporter.sendMail({
+                                   from:'kcoin2018@gmail.com',
+                                   to: newuser.email,
+                                   subject:'Hệ thống quản lý giao dịch Kcoin',
+                                   template:'email',
+                                   context:{
+                                       ten:result._id,
+                                       passw:req.body.password
+                                   }
+                               },function (err) {
+                                   if(err){console.log(err)}
+                                   else
+                                   {console.log('thanhcong')}
+                               })
                            })
+
 
                            return res.send({code: 200, message: "Đăng ký thành công,Vào email để xác thực tài khoản"});
                        }
@@ -111,33 +118,81 @@ r.post('/login',function (req,res) {
         return res.send('Chua nhap day du thong tin');
     }
     else{
-        var idwallet=req.body.id_wallet;
-        var password=crypto.createHash('md5').update(req.body.password).digest('hex');
-        User.findOne({"address": idwallet},function (err,result) {
-            if(result.confirm_code==='0'){
-                res.send({message:'Tài khoản chưa xác thực'})
-            }else{
-                if(password ===result.password ){
-                    req.session.userwallet = result;
-                    req.session.userAddress=result.address;
-                    req.session.userKcoin=result.kcoin_num;
-                    req.session.userEmail=result.email;
-                    req.session.save();
-                    res.send({code:200,message:"Đăng nhập thành công"});
+        var i=req.body.id_wallet;
+        if(i.length==24){
+            var idwallet=mongoose.Types.ObjectId(req.body.id_wallet);
+            var password=crypto.createHash('md5').update(req.body.password).digest('hex');
+            User.findOne({"_id": idwallet,"password" : password},function (err,result) {
+                if(err){
+                    res.send(err);
+                }else{
+                    if(result!==null){
+                        if(result.confirm_code==='0'){
+                            res.send({message:'Tài khoản chưa xác thực'})
+                        }else{
+                            if(password ===result.password ){
+                                req.session.isAdmin=result.isAdmin;
+                                req.session.userAddress=result.address;
+                                req.session.userKcoin_tt=result.kcoin_tt;
+                                req.session.userKcoin_kd=result.kcoin_kd;
+                                req.session.userEmail=result.email;
+                                req.session.save();
+                                res.send({code:200,message:"Đăng nhập thành công"});
+                            }
+                        }
+                    }else{
+                        return res.json({code:301,message:'Sai tên đăng nhập hoặc mật khẩu'});
+                    }
                 }
-            }
-        })
+            })
+        }else{
+            return res.json({code:301,message:'Sai tên đăng nhập hoặc mật khẩu'});
+        }
+
     }
 
 });
 
 r.get('/logout',function (req,res) {
-    req.session.userwallet = undefined;
+    req.session.isAdmin=undefined;
+    req.session.userAddress=undefined;
+    req.session.userKcoin_tt=undefined;
+    req.session.userKcoin_kd=undefined;
+    req.session.userEmail=undefined;
     res.send('DA_DANG_XUAT');
 })
 
 r.get('/info',function (req,res) {
-    res.send({Idwallet : req.session.userAddress,Kcoin:req.session.userKcoin,email: req.session.userEmail});
+    res.send({Idwallet : req.session.userAddress,isAdmin:req.session.isAdmin,Kcoin_tt:req.session.userKcoin_tt,Kcoin_kd:req.session.userKcoin_kd,email: req.session.userEmail});
 })
+
+
+// quyền admin
+
+r.get('/admin/listuser/',function (req,res) {
+    if(req.session.isAdmin === undefined)
+    {
+        return res.send('Bạn không phải là admin');
+    }
+    else {
+        if(req.session.isAdmin===0){
+            return res.send('Bạn không có quyền truy cập trang này');
+        }else{
+            User.find({},'email address kcoin_tt kcoin_kd',function (err,result) {
+                if(err){
+                    return res.send(err);
+                }else{
+                    if(result===null){
+                        return res.send(null);
+                    }else{
+                        return res.json(result);
+                    }
+                }
+            })
+        }
+    }
+
+})
+
 
 module.exports = r;

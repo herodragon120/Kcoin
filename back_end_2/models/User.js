@@ -4,11 +4,13 @@ var Schema=mongoose.Schema;
 var User=new Schema({
     email:String,
     password:String,
+    isAdmin:Number,
     confirm_code:String,
     public_key:String,
     private_key:String,
     address: String,
-    kcoin_num:Number
+    kcoin_tt:Number,
+    kcoin_kd:Number
 },{collection:'user'});
 
 function User(email, password, confirm_code, public_key, private_key, address, kcoin_num ) {
