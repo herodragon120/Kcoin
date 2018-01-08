@@ -25,28 +25,22 @@ app.get('/', (req, res) => {
 });
 
 //GET '*' phải để ở cuối cùng, khi mà những điều trên không thỏa
-app.get('*', (req, res) => {
-  res.render('home');
-});
+// app.get('*', (req, res) => {
+//   res.render('home');
+// });
 
 app.post('/signin',(req,res)=>{
-    var email = req.body.email;
-    console.log(email);
-    if(email=="phuc@123"){
-        req.session.email=email;
-        console.log(req.session.email);
-
-        return res.send({mess:'DANG_NHAP_THANH_CONG'});
+    var wallet = req.body.wallet;
+    console.log(wallet);
+    if(wallet=="phuc@123"){
+        req.session.wallet=wallet;
+        return res.send({mess:'DANG_NHAP_THANH_CONG',wallet:wallet});
     }
     res.send({mess:'DANG_NHAP_THAT_BAI'})
 })
 
 app.get('/getinfo',(req,res)=>{
-    console.log("AAAA"+req.session.email);
-    if(req.session.email){
-        return res.send({email:req.session.email})
-    }
-    res.send('CHUA_DANG_NHAP')
+        return res.send({kcoin_tt:100,kcoin_kd:90,user_transactions:{a:"1",b:"2"}})
 })
 
 

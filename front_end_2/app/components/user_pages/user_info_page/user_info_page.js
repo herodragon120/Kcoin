@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import VerticalMenu from '../vertical_menu/vertical_menu'
 import Info from '../info/info'
 import TransactionTable from './transtations_table'
+import {getInfoRequest} from '../../../actions/user_pages/user_info_page/user_info_page'
 class UserInfoPage extends React.Component{
     render(){
         return(

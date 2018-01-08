@@ -2,7 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux';
 import SignupForm from './signup_form'
 class SignupPage extends React.Component{
-
     render(){
         return (
             <div>
@@ -15,5 +14,4 @@ class SignupPage extends React.Component{
         );
     }
 }
-
 module.exports= connect()(SignupPage);

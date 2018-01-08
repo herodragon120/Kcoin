@@ -2,13 +2,10 @@ import React from 'react'
 import {Link} from 'react-router-dom';
 import './index.css';
 import {connect} from 'react-redux';
-import {fetchExchangesOfUse} from './../../actions/index'
 import Block from '../block/block'
 import Footer from '../footer/footer'
-import {getInfoRequest} from '../../actions/index'
 class Home extends React.Component{
     componentDidMount(){
-        this.props.getInfo();
     }
     render(){
         return(
@@ -20,7 +17,6 @@ class Home extends React.Component{
                     <Block/>
                     <h4  style={{float:"right"}}><Link to="/">Xem thêm</Link></h4>
                     <div style={{clear:"right"}}></div>
-                    {this.props.email}
                 </div>
                 <div className="col-md-1"></div>
                 <div className="col-md-12">
@@ -31,14 +27,5 @@ class Home extends React.Component{
     }
 }
 
-function mapStateToProps (state) {
-    return {email:state.email}
-}
 
-function mapDispatchToProps (dispatch) {
-    return {
-        getInfo: () => dispatch(getInfoRequest())
-    }
-}
-
-module.exports= connect(mapStateToProps, mapDispatchToProps)(Home);
+module.exports= connect()(Home);

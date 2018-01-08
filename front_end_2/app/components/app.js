@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route, Redirect} from 'react-router-dom';
+import {HashRouter , Route, Redirect} from 'react-router-dom';
 import Home from './home_page/index';
 import SignIn from './user_pages/signin_page/signin_page';
 import SignUp from './user_pages/signup_page/signup_page';
@@ -8,17 +8,15 @@ import UserInfo from './user_pages/user_info_page/user_info_page'
 import SendMoney from './user_pages/send_money_page/sendmoney_page'
 import ReceiveMoneyPage from './user_pages/receive_money_page/receive_money_page'
 import {connect} from 'react-redux';
-import {getInfoRequest} from '../actions/index'
 
 
 
 class App extends React.Component {
     componentDidMount(){
-        this.props.getInfo();
     }
     render() {
         return (
-            <BrowserRouter>
+            <HashRouter >
                 <div>
                     <Nav/>
                     <div className="clear-float">
@@ -30,19 +28,10 @@ class App extends React.Component {
                         <Route exact path="/user/signin" component={SignIn}/>
                     </div>
                 </div>
-            </BrowserRouter>);
+            </HashRouter >);
     }
 }
 
 
-function mapStateToProps (state) {
-    return {is_signin:state.is_signin}
-}
 
-function mapDispatchToProps (dispatch) {
-    return {
-        getInfo: () => dispatch(getInfoRequest())
-    }
-}
-
-module.exports= connect(mapStateToProps, mapDispatchToProps)(App);
+module.exports= connect()(App);

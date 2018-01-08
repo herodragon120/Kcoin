@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect} from 'react-redux';
-import {getInfoRequest} from '../../../actions/index'
 class SignupForm extends React.Component{
     handleClickSignUp(){
         var email = this.refs.email.value.trim();
@@ -17,19 +16,19 @@ class SignupForm extends React.Component{
             <div>
                 <h1 className="text-center page-title">Tạo Ví Của Bạn</h1>
                 <form>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Email</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email của bạn"/>
+                    <div className="form-group">
+                        <label htmlFor="exampleInputEmail1">Email</label>
+                        <input type="email" className="form-control" id="exampleInputEmail1" placeholder="Email của bạn"/>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Mật khẩu</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Mật khẩu"/>
+                    <div className="form-group">
+                        <label htmlFor="exampleInputPassword1">Mật khẩu</label>
+                        <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Mật khẩu"/>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Nhập lại mật khẩu</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Nhập lại mật khẩu"/>
+                    <div className="form-group">
+                        <label htmlFor="exampleInputPassword1">Nhập lại mật khẩu</label>
+                        <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Nhập lại mật khẩu"/>
                     </div>
-                    <button type="submit" class="btn btn-primary">Tạo Ví</button>
+                    <button type="submit" className="btn btn-primary">Tạo Ví</button>
                 </form>
             </div>
         );
@@ -37,14 +36,4 @@ class SignupForm extends React.Component{
 }
 
 
-function mapStateToProps (state) {
-    return {email:state.email}
-}
-
-function mapDispatchToProps (dispatch) {
-    return {
-        getInfo: () => dispatch(getInfoRequest())
-    }
-}
-
-module.exports= connect(mapStateToProps, mapDispatchToProps)(SignupForm);
+module.exports= connect()(SignupForm);

@@ -1,12 +1,12 @@
 import cst from '../constants/constants'
 
-var is_signin = (state = false, action) => {
+var wallet = (state = null, action) => {
     switch(action.type){
         case cst.SIGN_IN:
-            return !state;
+            return action.wallet;
         default:
             return state;
     }
 };
 
-module.exports = is_signin;
+module.exports = wallet;
