@@ -1,5 +1,5 @@
-var mongoose=require('mongoose');
-var Schema=mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var Block = new Schema({
     hash: String,

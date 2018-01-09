@@ -1,9 +1,9 @@
 var express = require('express');
 var r = express.Router();
-var trans=require('../models/Exchange');
+var trans = require('../models/Exchange');
 var nodemailer=require('nodemailer');
-var User=require('../models/User')
-var hbs=require('nodemailer-express-handlebars');
+var User = require('../models/User')
+var hbs = require('nodemailer-express-handlebars');
 const ursa = require('ursa');
 const _ = require('lodash');
 const crypto = require('crypto');
@@ -21,7 +21,7 @@ var transporter = nodemailer.createTransport({
 });
 
 r.post('/exchange/:id',function (req,res) {
-    if(req.params.id.length !==24){
+    if(req.params.id.length !== 24){
         res.send({message:'WALLET_ERROR'})
     }else{
         var idwallet = mongoose.Types.ObjectId(req.params.id);
@@ -79,15 +79,15 @@ r.post('/exchange/:id',function (req,res) {
 r.get('/exchange/:idwallet/:idtrans',function (req,res) {
     var idwallet = req.params.idwallet;
     var idtrans = mongoose.Types.ObjectId(req.params.idtrans);
-    var idwalletObj=mongoose.Types.ObjectId(req.params.idwallet);
+    var idwalletObj = mongoose.Types.ObjectId(req.params.idwallet);
     trans.findOne({'iduser':idwallet,'_id':idtrans},function (err,result) {
         if(err){
            return res.send({message:err});
         }else{
-            if(result===null){
+            if(result === null){
                 return res.send({message:'KHONG_CO_GIAO_DICH'});
             }else{
-                result.state='DANG_XU_LY';
+                result.state = 'DANG_XU_LY';
                 result.save(function (err) {
                     if(err){return res.send({message:err});}
                     else {
@@ -97,7 +97,7 @@ r.get('/exchange/:idwallet/:idtrans',function (req,res) {
                                 if(datauser === null){
                                     return res.send({message:'NULL'})
                                 }else{
-                                    datauser.kcoin_kd=datauser.kcoin_tt-result.outputs[0].value;
+                                    datauser.kcoin_kd = datauser.kcoin_tt-result.outputs[0].value;
                                     datauser.save(function (err) {
                                         if(err){ return res.send(err);}
                                         else{

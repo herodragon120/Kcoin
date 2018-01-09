@@ -1,7 +1,7 @@
-var mongoose=require('mongoose');
-var Schema=mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var User=new Schema({
+var User = new Schema({
     email:String,
     password:String,
     isAdmin:Number,
@@ -22,4 +22,4 @@ function User(email, password, confirm_code, public_key, private_key, address, k
     this.address = address;
     this.kcoin_num = kcoin_num;
 }
-module.exports= mongoose.model('user',User);
+module.exports = mongoose.model('user',User);
