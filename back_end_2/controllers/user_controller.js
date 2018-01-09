@@ -1,6 +1,6 @@
-var express = require('express'),
-    crypto = require('crypto'),
-    mongoose = require('mongoose')
+var crypto = require('crypto'),
+    mongoose = require('mongoose'),
+    naptien=require('../models/napTien'),
     User = require('../models/User');
 const ursa = require('ursa');
 const _ = require('lodash');
@@ -8,8 +8,6 @@ var hbs = require('nodemailer-express-handlebars');
 
 const HASH_ALGORITHM = 'sha256';
 
-
-var r = express.Router();
 
 let hash = function (data) {
     let hash = crypto.createHash(HASH_ALGORITHM);
@@ -29,7 +27,7 @@ var transporter = nodemailer.createTransport({
 });
 
 
-r.post('/signup',function (req,res) {
+exports.signup =function (req,res) {
    if(req.body.email == "" || req.body.password == "" || req.body.confirmpassword == "")
    {
        return res.send({message:'CHUA_NHAP_THONG_TIN'});
@@ -92,9 +90,8 @@ r.post('/signup',function (req,res) {
 
        }
    }
-
-})
-r.get('/:ten',function (req,res) {
+}
+exports.xacthuc=function (req,res) {
     var id = req.params.ten;
     User.findOne({"_id":id},function (err,result) {
         if(err){
@@ -110,8 +107,8 @@ r.get('/:ten',function (req,res) {
             }
         }
     })
-})
-r.post('/signin',function (req,res) {
+}
+exports.dangnhap=function (req,res) {
     if(req.body.wallet == "" || req.body.password == ""){
         return res.send({message:'TAI_KHOAN_KHONG_DUNG',wallet:null});
     }
@@ -146,20 +143,34 @@ r.post('/signin',function (req,res) {
 
     }
 
-});
-
-r.get('/logout',function (req,res) {
+};
+exports.dangxuat=function (req,res) {
     req.session.isAdmin = undefined;
     req.session.wallet = undefined;
     res.send('DA_DANG_XUAT');
-})
-
-r.get('/info',function (req,res) {
-
-})
-
-
-
-
-
-module.exports = r;
+}
+exports.thongtin=function (req,res) {
+    var id=mongoose.Types.ObjectId(req.params.id);
+    User.findOne({'_id' : id},'address kcoin_tt kcoin_kd',function (err,result) {
+        if(err){
+            res.send({message:err});
+        }else{
+            if(result===null){
+                res.send({message:'USER_KHONG_CO'});
+            }else{
+                naptien.find({'to':result.address},function (er,re) {
+                    if(er){
+                        res.send({message:er});
+                    }else{
+                        if(re===null)
+                        {
+                            res.send({message:'KHONG_CO_LS_NAP_TIEN'});
+                        }else{
+                            res.json({listNaptien:re,kcoin_tt:result.kcoin_tt,kcoin_kd:result.kcoin_kd});
+                        }
+                    }
+                })
+            }
+        }
+    })
+}

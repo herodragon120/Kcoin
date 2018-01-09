@@ -1,15 +1,25 @@
-var express = require('express');
-var r = express.Router();
 
 var block = require('../models/Block');
-var user = require('../models/User'),
-    util = require('util'),
-    https = require('https')
 
 /*Get Block from BlockChain API KCoin*/
-r.get('/',function (req,res,next) {
+exports.listblock=function (req,res) {
+    block.find({},'hash nonce version difficulty timestamp',function (err,result) {
+        if(err){
+            res.send({message:err});
+        }else{
+            if(result===null)
+            {
+                res.send({message:'NULL'});
+            }else{
+                var mang=[];
+                for(var i=result.length-1;i>=result.length-10;i--)
+                {
+                    mang.push(result[i]);
+                }
+                res.json(mang);
+            }
+        }
+    })
+}
 
-});
-
-module.exports = r;
 

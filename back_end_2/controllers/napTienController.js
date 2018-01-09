@@ -1,11 +1,9 @@
-var express = require('express');
 var mongoose = require('mongoose');
 var crypto = require('crypto');
-var r = express.Router();
 var user = require('../models/User');
 
 
-r.get('/chiTietNapTien', function (req, res, next) {
+exports.taodiachi= function (req, res, next) {
     var id = mongoose.Types.ObjectId(req.params.id);
     User.findOne({"_id": id}, function (err, result) {
         if (err) {
@@ -18,7 +16,4 @@ r.get('/chiTietNapTien', function (req, res, next) {
             }
         }
     })
-})
-
-
-module.exports = r;
+}

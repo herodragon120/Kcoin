@@ -9,10 +9,10 @@ var express = require('express'),
 var Block = require ('./models/Block'),
     User = require('./models/User'),
     napTien = require('./models/napTien'),
-    userController = require('./controllers/user_controller'),
-    blockController = require('./controllers/blockControllers'),
-    adminController = require('./controllers/admin_controller'),
-    napTienController = require('./controllers/napTienController')
+    userAPI = require('./routes/API/userAPI'),
+    blockAPI = require('./routes/API/blockAPI'),
+    adminAPI = require('./routes/API/adminAPI'),
+    napTienAPI = require('./routes/API/napTienAPI')
     trans = require('./controllers/exchange_controller');
 
 
@@ -51,11 +51,11 @@ app.listen(3000,function () {
 });
 
 //app.use(user_controller);
-app.use('/block',blockController);
-app.use('/account',userController);
+app.use('/block',blockAPI);
+app.use('/account',userAPI);
 app.use('/transaction',trans);
-app.use('/admin',adminController);
-app.use('/napTien',napTienController);
+app.use('/admin',adminAPI);
+app.use('/naptien',napTienAPI);
 
 const HASH_ALGORITHM = 'sha256';
 let hash = function (data) {

@@ -1,15 +1,9 @@
-var express = require('express'),
-    crypto = require('crypto'),
-    mongoose=require('mongoose')
 User = require('../models/User');
-const ursa = require('ursa');
-const _ = require('lodash');
-var hbs = require('nodemailer-express-handlebars');
-var r = express.Router();
+
 
 // quyền admin
 
-r.get('/listuser/',function (req,res) {
+exports.listuser=function (req,res) {
     if(req.session.isAdmin === undefined)
     {
         return res.send({message:'KHONG_ADMIN'});
@@ -18,7 +12,7 @@ r.get('/listuser/',function (req,res) {
         if(req.session.isAdmin === 0){
             return res.send({message:'KHONG_ADMIN'});
         }else{
-            User.find({},'email address kcoin_tt kcoin_kd',function (err,result) {
+            User.find({},'email kcoin_tt kcoin_kd',function (err,result) {
                 if(err){
                     return res.send(err);
                 }else{
@@ -31,9 +25,9 @@ r.get('/listuser/',function (req,res) {
             })
         }
     }
-})
+}
 
-r.get('/statistical',function (req,res) {
+exports.statistical=function (req,res) {
     if(req.session.isAdmin === undefined)
     {
         return res.send({message:'KHONG_ADMIN'});
@@ -62,6 +56,27 @@ r.get('/statistical',function (req,res) {
             })
         }
     }
-})
-
-module.exports = r;
+}
+exports.listaddress=function (req,res) {
+    if(req.session.isAdmin === undefined)
+    {
+        return res.send({message:'KHONG_ADMIN'});
+    }
+    else {
+        if(req.session.isAdmin === 0){
+            return res.send({message:'KHONG_ADMIN'});
+        }else{
+            User.find({},'email address kcoin_tt kcoin_kd',function (err,result) {
+                if(err){
+                    return res.send(err);
+                }else{
+                    if(result === null){
+                        return res.send(null);
+                    }else{
+                        return res.json(result);
+                    }
+                }
+            })
+        }
+    }
+}
