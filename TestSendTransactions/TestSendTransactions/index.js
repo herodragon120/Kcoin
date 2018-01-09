@@ -1,12 +1,10 @@
 var express = require('express');
 var app = express();
-
-app.set('view engine', 'ejs');
-app.set('views', './views');
-
-app.get('/', function(req, res){
-	res.render('home');
-});
+bodyParser = require('body-parser'),
+    app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 
 app.listen(9000, function(){
 	console.log('SERVER IS RUNNING...');
@@ -134,10 +132,10 @@ let key = require('./my_keys.json');
 
 
 // Số tiền đang có
-const MONEY = 10000;
+const MONEY = 991;
 
 // Số tiền gửi
-const BOUNTY = 100;
+const BOUNTY = 1;
 
 // Số tiền dư (tiền thối)
 const CHANGE = MONEY - BOUNTY;
@@ -151,12 +149,12 @@ let bountyTransaction = {
 
 // Là hash của transaction trước đó chứa output làm input của transaction này
 let referenceOutputsHashes = [ 
-    'f3d218bad02b3d8069a46e8020de8ef620e1b03f5fa904061499631a94a1b985'
+    'f14620f7619594e3ca5c353569a4e479b229a816af5a8c05bbfd396c583153d6'
 ];
 
 // Chứa địa chỉ nhận tiền
 let destinations = [
-    'f61644fccfe4f308a67d3c80a134d8bb0350d7b08b5631c00c34e08f9be16504'
+    '30da374d28a54218c885fe3b4c7c21c419104558acb7c18ca18521e18a39717b',
 ];
 
 // keys để chứa mảng key[private, public, address] ứng với số lượng input
@@ -166,7 +164,7 @@ let keys = [];
 referenceOutputsHashes.forEach(hash => {
     bountyTransaction.inputs.push({
       referencedOutputHash: hash,
-      referencedOutputIndex: 40,
+      referencedOutputIndex: 0,
       unlockScript: ''
     });
     keys.push(key);

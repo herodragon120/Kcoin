@@ -32,11 +32,11 @@ var transporter = nodemailer.createTransport({
 r.post('/signup',function (req,res) {
    if(req.body.email=="" || req.body.password=="" || req.body.confirmpassword=="")
    {
-       return res.send("Chưa nhập đầy đủ thông tin");
+       return res.send({message:'CHUA_NHAP_THONG_TIN'});
    }else{
        if(req.body.password.toString()!==req.body.confirmpassword.toString()){
 
-           return res.send("Mật khẩu xác nhận không chính xác");
+           return res.send({message:'MAT_KHAU_KHONG_DUNG'});
        }
        else {
             var newuser=new User();
@@ -58,7 +58,7 @@ r.post('/signup',function (req,res) {
 
            User.findOne({'email': newuser.email}, function (err, result) {
                if(result !== null){
-                   return res.send( {code: 301, message: "email đã được sử dụng",});
+                   return res.send( {code: 301, message: "EMAIL_DA_SU_DUNG",});
                }else{
                    newuser.save(function (err) {
                        if(err){
@@ -84,9 +84,7 @@ r.post('/signup',function (req,res) {
                                    {console.log('thanhcong')}
                                })
                            })
-
-
-                           return res.send({code: 200, message: "Đăng ký thành công,Vào email để xác thực tài khoản"});
+                           return res.send({code: 200, message: "DANG_KY_THANH_CONG"});
                        }
                    })
                }
@@ -98,7 +96,7 @@ r.post('/signup',function (req,res) {
 })
 r.get('/:ten',function (req,res) {
     var id=req.params.ten;
-    User.findOne({"address":id},function (err,result) {
+    User.findOne({"_id":id},function (err,result) {
         if(err){
             res.status(500).send();
         }else{
@@ -107,20 +105,20 @@ r.get('/:ten',function (req,res) {
             }else{
                 result.confirm_code=1;
                 result.save(function (err,resultupdate) {
-                    res.send('Xác thực thành công');
+                    res.send({message:'XAC_THUC_THANHCONG'});
                 })
             }
         }
     })
 })
-r.post('/login',function (req,res) {
-    if(req.body.id_wallet=="" || req.body.password==""){
-        return res.send('Chua nhap day du thong tin');
+r.post('/signin',function (req,res) {
+    if(req.body.wallet=="" || req.body.password==""){
+        return res.send({message:'TAI_KHOAN_KHONG_DUNG',wallet:null});
     }
     else{
-        var i=req.body.id_wallet;
+        var i=req.body.wallet;
         if(i.length==24){
-            var idwallet=mongoose.Types.ObjectId(req.body.id_wallet);
+            var idwallet=mongoose.Types.ObjectId(req.body.wallet);
             var password=crypto.createHash('md5').update(req.body.password).digest('hex');
             User.findOne({"_id": idwallet,"password" : password},function (err,result) {
                 if(err){
@@ -128,25 +126,22 @@ r.post('/login',function (req,res) {
                 }else{
                     if(result!==null){
                         if(result.confirm_code==='0'){
-                            res.send({message:'Tài khoản chưa xác thực'})
+                            res.send({message:'CHUA_XAC_THUC',wallet:null})
                         }else{
                             if(password ===result.password ){
                                 req.session.isAdmin=result.isAdmin;
-                                req.session.userAddress=result.address;
-                                req.session.userKcoin_tt=result.kcoin_tt;
-                                req.session.userKcoin_kd=result.kcoin_kd;
-                                req.session.userEmail=result.email;
+                                req.session.wallet=idwallet;
                                 req.session.save();
-                                res.send({code:200,message:"Đăng nhập thành công"});
+                                res.send({code:200,message:"DANG_NHAP_THANH_CONG",wallet:idwallet});
                             }
                         }
                     }else{
-                        return res.json({code:301,message:'Sai tên đăng nhập hoặc mật khẩu'});
+                        return res.json({code:301,message:'TAI_KHOAN_KHONG_DUNG',wallet:null});
                     }
                 }
             })
         }else{
-            return res.json({code:301,message:'Sai tên đăng nhập hoặc mật khẩu'});
+            return res.json({code:301,message:'TAI_KHOAN_KHONG_DUNG',wallet:null});
         }
 
     }
@@ -155,43 +150,16 @@ r.post('/login',function (req,res) {
 
 r.get('/logout',function (req,res) {
     req.session.isAdmin=undefined;
-    req.session.userAddress=undefined;
-    req.session.userKcoin_tt=undefined;
-    req.session.userKcoin_kd=undefined;
-    req.session.userEmail=undefined;
+    req.session.wallet=undefined;
     res.send('DA_DANG_XUAT');
 })
 
 r.get('/info',function (req,res) {
-    res.send({Idwallet : req.session.userAddress,isAdmin:req.session.isAdmin,Kcoin_tt:req.session.userKcoin_tt,Kcoin_kd:req.session.userKcoin_kd,email: req.session.userEmail});
+
 })
 
 
-// quyền admin
 
-r.get('/admin/listuser/',function (req,res) {
-    if(req.session.isAdmin === undefined)
-    {
-        return res.send('Bạn không phải là admin');
-    }
-    else {
-        if(req.session.isAdmin===0){
-            return res.send('Bạn không có quyền truy cập trang này');
-        }else{
-            User.find({},'email address kcoin_tt kcoin_kd',function (err,result) {
-                if(err){
-                    return res.send(err);
-                }else{
-                    if(result===null){
-                        return res.send(null);
-                    }else{
-                        return res.json(result);
-                    }
-                }
-            })
-        }
-    }
-})
 
 
 module.exports = r;

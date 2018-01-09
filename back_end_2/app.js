@@ -8,7 +8,9 @@ var express = require('express'),
     util=require('util');
 var Block = require ('./models/Block'),
     userController=require('./controllers/user_controller'),
-    blockController=require('./controllers/blockControllers')    ;
+    blockController=require('./controllers/blockControllers')   ,
+    adminController=require('./controllers/admin_controller'),
+    trans=require('./controllers/exchange_controller');
 
 
 
@@ -48,50 +50,52 @@ app.listen(3000,function () {
 //app.use(user_controller);
 app.use('/block',blockController);
 app.use('/account',userController);
-const WebSocket = require('ws');
-
-const ws = new WebSocket('wss://api.kcoin.club/blocks');
-
-ws.onopen = function () {
-    setInterval(function () {
-        ws.send("") ;
-    },30000)
-};
-
-ws.onmessage = function (data1) {
-    var dataNewBlock = JSON.parse(data1.data);
-
-    if(dataNewBlock.type === "block")
-    {
-        console.log("có block mới");
-        var newBlock = new Block();
-        newBlock.hash = dataNewBlock.data.hash;
-        newBlock.nonce = dataNewBlock.data.nonce;
-        newBlock.version = dataNewBlock.data.version;
-        newBlock.timestamp = dataNewBlock.data.timestamp;
-        newBlock.difficulty = dataNewBlock.data.difficulty;
-        newBlock.transactions = dataNewBlock.data.transactions;
-        newBlock.transactionsHash = dataNewBlock.data.transactionsHash;
-        newBlock.previousBlockHash = dataNewBlock.data.previousBlockHash;
-        Block.findOne({hash: newBlock.hash}, function (err, result) {
-            if(result !== null)
-            {
-                return( {code: 301, message: "Hash has been used"});
-            }
-            else {
-                newBlock.save(function (err) {
-                    if(err){
-                        return {code: 500, message: err};
-                    } else {
-                        return {code: 200, message: "Block add"}
-                    }
-                });
-            }
-        })
-    }
-
-
-};
+app.use('/transaction',trans);
+app.use('/admin',adminController);
+// const WebSocket = require('ws');
+//
+// const ws = new WebSocket('wss://api.kcoin.club/blocks');
+//
+// ws.onopen = function () {
+//     setInterval(function () {
+//         ws.send("") ;
+//     },30000)
+// };
+//
+// ws.onmessage = function (data1) {
+//     var dataNewBlock = JSON.parse(data1.data);
+//
+//     if(dataNewBlock.type === "block")
+//     {
+//         console.log("có block mới");
+//         var newBlock = new Block();
+//         newBlock.hash = dataNewBlock.data.hash;
+//         newBlock.nonce = dataNewBlock.data.nonce;
+//         newBlock.version = dataNewBlock.data.version;
+//         newBlock.timestamp = dataNewBlock.data.timestamp;
+//         newBlock.difficulty = dataNewBlock.data.difficulty;
+//         newBlock.transactions = dataNewBlock.data.transactions;
+//         newBlock.transactionsHash = dataNewBlock.data.transactionsHash;
+//         newBlock.previousBlockHash = dataNewBlock.data.previousBlockHash;
+//         Block.findOne({hash: newBlock.hash}, function (err, result) {
+//             if(result !== null)
+//             {
+//                 return( {code: 301, message: "Hash has been used"});
+//             }
+//             else {
+//                 newBlock.save(function (err) {
+//                     if(err){
+//                         return {code: 500, message: err};
+//                     } else {
+//                         return {code: 200, message: "Block add"}
+//                     }
+//                 });
+//             }
+//         })
+//     }
+//
+//
+// };
 // var url = 'https://api.kcoin.club/blocks';
 // https.get(url, function(res){
 //     var body = '';
