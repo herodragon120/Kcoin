@@ -105,6 +105,44 @@ ws.onmessage = function (data1) {
                     if(err){
                         return {code: 500, message: err};
                     } else {
+                        newBlock.transactions.forEach(hash=> {
+                            napTien.findOne({'hash':hash.hash},function (errr,result1) {
+                                if(errr){ return {code:401,message:errr}}
+                                else{
+                                    if(result1===null){
+                                        return {code:401,message:null}
+                                    }else{
+                                        User.findOne({'address':result1.from},function (err1,from) {
+                                            if(err1){return {message:err1}}
+                                            else{
+                                                if(from===null){
+                                                    return {message:null}
+                                                }else{
+                                                    from.kcoin_tt=from.kcoin_kd;
+                                                    from.save(function (er2) {
+                                                        if(er2){return {message:er2}}
+                                                    })
+                                                }
+                                            }
+                                        })
+                                        User.findOne({'address':result1.to},function (er12,userto) {
+                                            if(er12){return {message:er12}}
+                                            else{
+                                                if(userto===null){
+                                                    return {message:null}
+                                                }else{
+                                                    userto.kcoin_tt=userto.kcoin_kd;
+                                                    userto.save(function (er22) {
+                                                        if(er22){return {message:er22}}
+                                                    })
+                                                }
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        })
+
                         return {code: 200, message: "Block add"}
                     }
                 });
@@ -132,6 +170,7 @@ ws1.onmessage = function (dataTransaction) {
 
 
             User.findOne({'address': output.lockScript.substring(4)}, function (err, result) {
+
                 console.log("có transaction mới");
                 if (result !== null) {
                     if(result.public_key !==  dataNewTransaction.data.inputs[0].unlockScript.substring(4, 548))
@@ -147,6 +186,27 @@ ws1.onmessage = function (dataTransaction) {
                             if (err) {
                                 return {code: 500, message: err};
                             } else {
+                                result.kcoin_kd=result.kcoin_kd+newTransaction.value;
+                                result.save(function (err) {
+                                   if(err){return {message:"Error"};}
+                                })
+                                User.findOne({'address':newTransaction.from},function (err,ketqua) {
+                                    if(err){return {message:"error"};}
+                                    else{
+                                        if(ketqua===null){
+                                            return {message:'Khong co'};
+                                        }else{
+                                            ketqua.kcoin_kd=ketqua.kcoin_kd-newTransaction.value;
+                                            ketqua.save(function (err) {
+                                                if(err){
+                                                    return {message:"Error"};
+                                                }else{
+                                                    return {message:"OK"};
+                                                }
+                                            })
+                                        }
+                                    }
+                                })
                                 return {code: 200, message: "Transaction add"}
                             }
                         });
