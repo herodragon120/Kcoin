@@ -10,7 +10,7 @@ var r = express.Router();
 // quyền admin
 
 r.get('/listuser/',function (req,res) {
-    if(req.session.isAdmin !== undefined)
+    if(req.session.isAdmin === undefined)
     {
         return res.send({message:'KHONG_ADMIN'});
     }
@@ -34,7 +34,7 @@ r.get('/listuser/',function (req,res) {
 })
 
 r.get('/statistical',function (req,res) {
-    if(req.session.isAdmin !== undefined)
+    if(req.session.isAdmin === undefined)
     {
         return res.send({message:'KHONG_ADMIN'});
     }
