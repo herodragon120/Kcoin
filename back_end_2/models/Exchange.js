@@ -1,11 +1,20 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var ruttien = new Schema({
+
+var rutTien = new Schema({
     iduser : String,
-    inputs :[],
-    outputs :[],
-    version : Number,
+    hash:String,
+    from:String,
+    to:String,
+    value:Number,
+    time: Number,
+    index: Number,
     state : String,
+    referencedOutputHash: String,
+    referencedOutputIndex: Number
+}, {
+    collection: 'RutTien'
 });
-module.exports = mongoose.model('ruttien',ruttien);
+
+module.exports = mongoose.model('RutTien',rutTien);

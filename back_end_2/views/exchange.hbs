@@ -3,13 +3,43 @@
 <head>
     <meta charset="utf-8">
     <title></title>
+    <style>
+        .inline {
+            display: inline;
+        }
+
+        .link-button {
+            background: none;
+            border: none;
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 1em;
+            font-family: serif;
+        }
+        .link-button:focus {
+            outline: none;
+        }
+        .link-button:active {
+            color:red;
+        }
+    </style>
 </head>
 <body>
 <p style="font-size: 30px;color: #843534">Sàn giao dịch Kcoin của PPP</p>
 <p>Đây là link để xác thực việc rút tiền của bạn</p>
 <p> Bạn sẽ gửi tiền vào tài khoản: {{addressNhan}} </p>
 <p>Số tiền gửi: {{money}} Coin</p>
-<a href="http://localhost:3000/transaction/exchange/{{idwallet}}/{{idtrans}}">Nhấn vào đây để xác thực chính bạn là người rút tiền</a>
+<form method="post" action="http://localhost:3000/rutTien/exchange/xacthuc" class="inline">
+    <input type="hidden" name="idwallet" value="{{idwallet}}">
+    <input type="hidden" name="addressNhan" value="{{addressNhan}}">
+    <input type="hidden" name="money_kd" value="{{money_kd}}">
+    <input type="hidden" name="money" value="{{money}}">
+    <input type="hidden" name="idtrans" value="{{idtrans}}">
+    <button type="submit"class="link-button">
+        Nhấn vào đây để xác thực chính bạn là người rút tiền
+    </button>
+</form>
 
 <p> Cám ơn các bạn đã sử dụng dịch vụ của chúng tôi</p>
 </body>
