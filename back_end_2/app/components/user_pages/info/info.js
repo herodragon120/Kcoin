@@ -6,7 +6,6 @@ import {withRouter} from 'react-router'
 class Info extends React.Component{
 
     componentWillMount(){
-        console.log(this.props.location.pathname)
         this.props.getInfo().then(()=>{
         })
     }

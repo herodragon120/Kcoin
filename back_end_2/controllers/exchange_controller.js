@@ -73,10 +73,8 @@ exports.postGiaodich = function (req,res) {
 }
 
 exports.Ruttien = function (req,res) {
-    if(req.session.wallet.length !== 24){
-        res.send({message:'WALLET_ERROR'})
-    }else{
         var idwallet = mongoose.Types.ObjectId(req.session.wallet);
+        console.log(idwallet);
         User.findOne({_id : idwallet}, function (err, result) {
             if(result.kcoin_tt < req.body.money){
                 return res.send({message:'KHONG_DU_TIEN'});
@@ -143,8 +141,6 @@ exports.Ruttien = function (req,res) {
                 })
             }
         })
-
-    }
 }
 
 

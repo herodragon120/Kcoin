@@ -9,11 +9,12 @@ var express = require('express'),
 var Block = require ('./models/Block'),
     User = require('./models/User'),
     napTien = require('./models/napTien'),
+    rutTien = require('./models/Exchange'),
     userAPI = require('./routes/API/userAPI'),
     blockAPI = require('./routes/API/blockAPI'),
     adminAPI = require('./routes/API/adminAPI'),
     napTienAPI = require('./routes/API/napTienAPI'),
-    ruttienAPI=require('./routes/API/userAPI'),
+    ruttienAPI=require('./routes/API/exchangeAPI'),
     trans = require('./controllers/exchange_controller');
 
 
@@ -60,7 +61,6 @@ app.get('/', (req, res) => {
 });
 app.use('/block',blockAPI);
 app.use('/account',userAPI);
-app.use('/transaction',trans);
 app.use('/admin',adminAPI);
 app.use('/naptien',napTienAPI);
 app.use('/rutTien',ruttienAPI);
@@ -445,13 +445,13 @@ ws1.onmessage = function (dataTransaction) {
                                         }
                                         else {
                                             if (result === null) {
-                                                userRutTien.kcoin_kd = userRutTien.kcoin_kd + newTransaction.value;
+                                                userRutTien.kcoin_kd = userRutTien.kcoin_kd + result.value;
                                                 userRutTien.save(function (err) {
                                                     if (err) {
                                                         return {message: "Error"};
                                                     }
                                                 })
-                                                User.findOne({'address': newTransaction.from}, function (err, userNapTien) {
+                                                User.findOne({'address': result.from}, function (err, userNapTien) {
                                                     if (err) {
                                                         return {message: "error"};
                                                     }
@@ -459,7 +459,7 @@ ws1.onmessage = function (dataTransaction) {
                                                         if (userNapTien === null) {
                                                             return {message: 'Khong co'};
                                                         } else {
-                                                            userNapTien.kcoin_kd = userNapTien.kcoin_kd - newTransaction.value;
+                                                            userNapTien.kcoin_kd = userNapTien.kcoin_kd - result.value;
                                                             userNapTien.save(function (err) {
                                                                 if (err) {
                                                                     return {message: "Error"};

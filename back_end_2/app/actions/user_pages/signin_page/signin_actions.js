@@ -19,5 +19,19 @@ function signIn(wallet,mess,is_admin) {
         return {type:cst.SIGN_IN,is_signin:false,wallet,mess,is_admin}
     }
 }
+function guiTienRequest(address,money) {
+    return (dispatch)=>{
+        return axios.post('/rutTien',{address:address.value,money:money.value})
+            .then(res=>{
+                dispatch(guiTien(res.data.message))
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+    }
+}
+function guiTien(mess) {
+    return {type:cst.GUI_TIEN,mess}
+}
 
-module.exports = {signinRequest,signIn}
+module.exports = {signinRequest,signIn,guiTienRequest}

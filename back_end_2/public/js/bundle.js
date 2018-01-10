@@ -270,25 +270,6 @@ process.umask = function() { return 0; };
 
 /***/ }),
 /* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(112);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
-
-
-
-
-
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -306,10 +287,30 @@ var constants = {
     DETAIL_BLOCK: "DETAIL_BLOCK",
     GET_USER_LIST: "GET_USER_LIST",
     GET_TRANSACTION_LIST: "GET_TRANSACTION_LIST",
-    GET_ADDRESS_LIST: "GET_ADDRESS_LIST"
+    GET_ADDRESS_LIST: "GET_ADDRESS_LIST",
+    GUI_TIEN: "GUI_TIEN"
 };
 
 exports.default = constants;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(112);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
+
 
 /***/ }),
 /* 4 */
@@ -2054,7 +2055,7 @@ var locationsAreEqual = function locationsAreEqual(a, b) {
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -2078,8 +2079,20 @@ function signIn(wallet, mess, is_admin) {
         return { type: _constants2.default.SIGN_IN, is_signin: false, wallet: wallet, mess: mess, is_admin: is_admin };
     }
 }
+function guiTienRequest(address, money) {
+    return function (dispatch) {
+        return _axios2.default.post('/rutTien', { address: address.value, money: money.value }).then(function (res) {
+            dispatch(guiTien(res.data.message));
+        }).catch(function (err) {
+            console.log(err);
+        });
+    };
+}
+function guiTien(mess) {
+    return { type: _constants2.default.GUI_TIEN, mess: mess };
+}
 
-module.exports = { signinRequest: signinRequest, signIn: signIn };
+module.exports = { signinRequest: signinRequest, signIn: signIn, guiTienRequest: guiTienRequest };
 
 /***/ }),
 /* 24 */
@@ -4958,7 +4971,7 @@ function verifyPlainObject(value, displayName, methodName) {
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -5305,7 +5318,7 @@ if(false) {
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -5341,7 +5354,7 @@ module.exports = { getInfoRequest: getInfoRequest };
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -5396,7 +5409,7 @@ var React = __webpack_require__(0);
 var ReactDOM = __webpack_require__(75);
 var App = __webpack_require__(84);
 
-var _require = __webpack_require__(2),
+var _require = __webpack_require__(3),
     Provider = _require.Provider;
 
 var store = __webpack_require__(178);
@@ -22735,7 +22748,7 @@ var _user_page = __webpack_require__(168);
 
 var _user_page2 = _interopRequireDefault(_user_page);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25789,7 +25802,7 @@ var _reactRouterDom = __webpack_require__(19);
 
 __webpack_require__(107);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _block = __webpack_require__(134);
 
@@ -27180,7 +27193,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _reactRouter = __webpack_require__(9);
 
@@ -29167,7 +29180,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _signin_form = __webpack_require__(157);
 
@@ -29225,7 +29238,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _signin_actions = __webpack_require__(23);
 
@@ -29363,7 +29376,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _signup_form = __webpack_require__(160);
 
@@ -29421,7 +29434,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _signup_actions = __webpack_require__(161);
 
@@ -29544,7 +29557,7 @@ module.exports = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(S
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -29584,7 +29597,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(19);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _reactRouter = __webpack_require__(9);
 
@@ -29762,7 +29775,7 @@ module.exports = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)((
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -29846,7 +29859,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _summary_table = __webpack_require__(167);
 
@@ -29926,7 +29939,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30085,7 +30098,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _vertical_menu = __webpack_require__(169);
 
@@ -30202,7 +30215,7 @@ var _reactRouterDom = __webpack_require__(19);
 
 var _reactRouter = __webpack_require__(9);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30368,7 +30381,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _user_info_page = __webpack_require__(70);
 
@@ -30394,7 +30407,6 @@ var Info = function (_React$Component) {
     _createClass(Info, [{
         key: 'componentWillMount',
         value: function componentWillMount() {
-            console.log(this.props.location.pathname);
             this.props.getInfo().then(function () {});
         }
     }, {
@@ -30473,7 +30485,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 __webpack_require__(172);
 
@@ -30762,7 +30774,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30835,7 +30847,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
+
+var _reactRouter = __webpack_require__(9);
+
+var _signin_actions = __webpack_require__(23);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30856,6 +30872,18 @@ var RechargeMoneyForm = function (_React$Component) {
     }
 
     _createClass(RechargeMoneyForm, [{
+        key: 'handleSubmit',
+        value: function handleSubmit(e) {
+            e.preventDefault();
+            var _refs = this.refs,
+                txt_address = _refs.txt_address,
+                txt_money = _refs.txt_money;
+
+            this.props.guiTien(txt_address, txt_money).then(function () {
+                console.log("xu ly xong");
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
@@ -30864,11 +30892,11 @@ var RechargeMoneyForm = function (_React$Component) {
                 _react2.default.createElement(
                     'h1',
                     { className: 'text-center page-title' },
-                    'N\u1EA1p Ti\u1EC1n'
+                    'R\xFAt Ti\u1EC1n'
                 ),
                 _react2.default.createElement(
                     'form',
-                    { className: 'form-horizontal' },
+                    { className: 'form-horizontal', onSubmit: this.handleSubmit.bind(this) },
                     _react2.default.createElement(
                         'div',
                         { className: 'form-group' },
@@ -30881,7 +30909,7 @@ var RechargeMoneyForm = function (_React$Component) {
                         _react2.default.createElement(
                             'div',
                             { className: 'col-sm-6' },
-                            _react2.default.createElement('input', { ref: 'txt_wallet', type: 'text', className: 'form-control', id: 'inputEmail3', placeholder: 'Nh\u1EADp v\xED nh\u1EADn ti\u1EC1n' })
+                            _react2.default.createElement('input', { ref: 'txt_address', type: 'text', className: 'form-control', id: 'inputEmail3', placeholder: 'Nh\u1EADp v\xED nh\u1EADn ti\u1EC1n' })
                         ),
                         _react2.default.createElement('div', { className: 'col-sm-3' })
                     ),
@@ -30897,23 +30925,7 @@ var RechargeMoneyForm = function (_React$Component) {
                         _react2.default.createElement(
                             'div',
                             { className: 'col-sm-6' },
-                            _react2.default.createElement('input', { ref: 'txt_money', type: 'text', className: 'form-control', id: 'inputPassword3', placeholder: 'Nh\u1EADp s\u1ED1 ti\u1EC1n' })
-                        ),
-                        _react2.default.createElement('div', { className: 'col-sm-3' })
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'form-group' },
-                        _react2.default.createElement('div', { className: 'col-sm-1' }),
-                        _react2.default.createElement(
-                            'label',
-                            { htmlFor: 'inputPassword3', className: 'col-sm-2 control-label' },
-                            'M\xF4 t\u1EA3'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-sm-6' },
-                            _react2.default.createElement('textarea', { ref: 'txt_des', className: 'form-control', rows: '3', placeholder: 'Nh\u1EADp m\xF4 t\u1EA3' })
+                            _react2.default.createElement('input', { ref: 'txt_money', type: 'text', className: 'form-control', placeholder: 'Nh\u1EADp s\u1ED1 ti\u1EC1n' })
                         ),
                         _react2.default.createElement('div', { className: 'col-sm-3' })
                     ),
@@ -30939,7 +30951,19 @@ var RechargeMoneyForm = function (_React$Component) {
     return RechargeMoneyForm;
 }(_react2.default.Component);
 
-module.exports = (0, _reactRedux.connect)()(RechargeMoneyForm);
+function mapStateToProps(state) {
+    return { err_mess: state.err_mess };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        guiTien: function guiTien(address, pass) {
+            return dispatch((0, _signin_actions.guiTienRequest)(address, pass));
+        }
+    };
+}
+
+module.exports = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)((0, _reactRouter.withRouter)(RechargeMoneyForm));
 
 /***/ }),
 /* 176 */
@@ -30954,7 +30978,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _reactRouter = __webpack_require__(9);
 
@@ -31121,7 +31145,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _reactRouter = __webpack_require__(9);
 
@@ -31354,15 +31378,15 @@ var is_admin = __webpack_require__(182);
 var wallet = __webpack_require__(183);
 var kcoin_tt = __webpack_require__(184);
 var kcoin_kd = __webpack_require__(185);
-var num_user = __webpack_require__(194);
-var user_address = __webpack_require__(186);
-var block = __webpack_require__(187);
-var err_mess = __webpack_require__(188);
-var receive_transactions = __webpack_require__(189);
-var detail_block = __webpack_require__(190);
-var transaction_list_info = __webpack_require__(191);
-var user_list_info = __webpack_require__(192);
-var address_list_info = __webpack_require__(193);
+var num_user = __webpack_require__(186);
+var user_address = __webpack_require__(187);
+var block = __webpack_require__(188);
+var err_mess = __webpack_require__(189);
+var receive_transactions = __webpack_require__(190);
+var detail_block = __webpack_require__(191);
+var transaction_list_info = __webpack_require__(192);
+var user_list_info = __webpack_require__(193);
+var address_list_info = __webpack_require__(194);
 
 var reducer = redux.combineReducers({
     is_signin: is_signin, wallet: wallet, kcoin_tt: kcoin_tt, kcoin_kd: kcoin_kd,
@@ -31380,7 +31404,7 @@ module.exports = reducer;
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -31409,7 +31433,7 @@ module.exports = is_signin;
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -31438,7 +31462,7 @@ module.exports = is_admin;
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -31467,7 +31491,7 @@ module.exports = wallet;
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -31496,7 +31520,7 @@ module.exports = kcoin_tt;
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -31525,7 +31549,36 @@ module.exports = kcoin_kd;
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var num_user = function num_user() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _constants2.default.GET_INFO:
+            return action.num_user;
+        case _constants2.default.LOG_OUT:
+            return 0;
+        default:
+            return state;
+    }
+};
+
+module.exports = num_user;
+
+/***/ }),
+/* 187 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -31548,13 +31601,13 @@ var user_address = function user_address() {
 module.exports = user_address;
 
 /***/ }),
-/* 187 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -31575,13 +31628,13 @@ var is_signin = function is_signin() {
 module.exports = is_signin;
 
 /***/ }),
-/* 188 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -31610,6 +31663,8 @@ var err_mess = function err_mess() {
                 if (action.mess == "MAT_KHAU_KHONG_DUNG") return "Thông tin không chính xác!";
                 return "";
             }
+        case _constants2.default.GUI_TIEN:
+            return "Đang xử lý";
         default:
             return "";
     }
@@ -31618,13 +31673,13 @@ var err_mess = function err_mess() {
 module.exports = err_mess;
 
 /***/ }),
-/* 189 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -31647,13 +31702,13 @@ var receive_transactions = function receive_transactions() {
 module.exports = receive_transactions;
 
 /***/ }),
-/* 190 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -31674,13 +31729,13 @@ var detail_block = function detail_block() {
 module.exports = detail_block;
 
 /***/ }),
-/* 191 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -31703,13 +31758,13 @@ var transaction_list_info = function transaction_list_info() {
 module.exports = transaction_list_info;
 
 /***/ }),
-/* 192 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -31732,13 +31787,13 @@ var user_list_info = function user_list_info() {
 module.exports = user_list_info;
 
 /***/ }),
-/* 193 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _constants = __webpack_require__(3);
+var _constants = __webpack_require__(2);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -31759,35 +31814,6 @@ var address_list_info = function address_list_info() {
 };
 
 module.exports = address_list_info;
-
-/***/ }),
-/* 194 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _constants = __webpack_require__(3);
-
-var _constants2 = _interopRequireDefault(_constants);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var num_user = function num_user() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-    var action = arguments[1];
-
-    switch (action.type) {
-        case _constants2.default.GET_INFO:
-            return action.num_user;
-        case _constants2.default.LOG_OUT:
-            return 0;
-        default:
-            return state;
-    }
-};
-
-module.exports = num_user;
 
 /***/ })
 /******/ ]);

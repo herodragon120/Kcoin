@@ -22,6 +22,8 @@ var err_mess = (state = "", action) => {
                 return "Thông tin không chính xác!"
             return ""
         }
+        case cst.GUI_TIEN:
+            return "Đang xử lý"
         default:
             return "";
     }
