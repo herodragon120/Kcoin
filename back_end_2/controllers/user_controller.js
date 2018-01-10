@@ -114,6 +114,7 @@ exports.dangnhap=function (req,res) {
     }
     else{
         var i = req.body.wallet;
+        console.log(i);
         if(i.length == 24){
             var idwallet = mongoose.Types.ObjectId(req.body.wallet);
             var password = crypto.createHash('md5').update(req.body.password).digest('hex');
@@ -158,28 +159,77 @@ exports.dangxuat=function (req,res) {
 }
 exports.thongtin=function (req,res) {
     var id=mongoose.Types.ObjectId(req.session.wallet);
-    User.findOne({'_id' : id},'address kcoin_tt kcoin_kd',function (err,result) {
-        if(err){
-            res.send({message:err});
-        }else{
-            if(result===null){
-                res.send({message:'USER_KHONG_CO'});
+    if(req.session.isAdmin===0){
+        User.findOne({'_id' : id},'address kcoin_tt kcoin_kd',function (err,result) {
+            if(err){
+                res.send({message:err});
             }else{
-                naptien.find({'to':result.address},function (er,re) {
-                    if(er){
-                        res.send({message:er});
-                    }else{
-                        res.send({
-                            listNaptien:re,
-                            kcoin_tt:result.kcoin_tt,
-                            kcoin_kd:result.kcoin_kd,
-                            wallet:req.session.wallet,
-                            user_address:result.address,
-                            is_admin:req.session.isAdmin
-                        });
-                    }
-                })
+                if(result===null){
+                    res.send({message:'USER_KHONG_CO'});
+                }else{
+                    naptien.find({'to':result.address},function (er,re) {
+                        if(er){
+                            res.send({message:er});
+                        }else{
+                            res.send({
+                                num_user:0,
+                                listNaptien:re,
+                                kcoin_tt:result.kcoin_tt,
+                                kcoin_kd:result.kcoin_kd,
+                                wallet:req.session.wallet,
+                                user_address:result.address,
+                                is_admin:req.session.isAdmin
+                            });
+                        }
+                    })
+                }
             }
-        }
-    })
+        })
+    }
+    else{
+        User.find({},'email kcoin_tt kcoin_kd',function (err,result) {
+            if(err){
+                return res.send(err);
+            }else{
+                if(result === null){
+                    return res.send(null);
+                }else{
+                    var tongtienTT = 0;
+                    var tongtienKD = 0;
+                    var songuoiDung = result.length;
+                    result.forEach(a => {
+                        tongtienKD = tongtienKD+a.kcoin_kd;
+                        tongtienTT = tongtienTT+a.kcoin_kd;
+                    })
+                    User.findOne({'_id' : id},'address kcoin_tt kcoin_kd',function (err,user) {
+                        if(err){
+                            res.send({message:err});
+                        }else{
+                            if(user===null){
+                                res.send({message:'USER_KHONG_CO'});
+                            }else{
+                                naptien.find({'to':user.address},function (er,re) {
+                                    if(er){
+                                        res.send({message:er});
+                                    }else{
+                                        res.send({
+                                            num_user:songuoiDung,
+                                            kcoin_kd:tongtienKD,
+                                            kcoin_tt:tongtienTT,
+                                            listNaptien:re,
+                                            wallet:req.session.wallet,
+                                            user_address:user.address,
+                                            is_admin:req.session.isAdmin
+                                        });
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+            }
+
+        })
+    }
+
 }

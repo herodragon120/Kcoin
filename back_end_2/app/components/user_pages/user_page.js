@@ -37,7 +37,6 @@ class UserInfoPage extends React.Component{
                             <Info/>
                         </div>
                         <div className="panel-body" style={{height:"430px"}}>
-                            {/*<TransactionTable/>*/}
                             {xhtml}
                         </div>
                     </div>

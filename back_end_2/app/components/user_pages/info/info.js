@@ -6,25 +6,35 @@ import {withRouter} from 'react-router'
 class Info extends React.Component{
 
     componentWillMount(){
+        console.log(this.props.location.pathname)
         this.props.getInfo().then(()=>{
-            if(this.props.wallet==null)
-                this.props.history.push('/signin')
         })
     }
     render(){
-
+        let xhtml = this.props.is_admin === 0 ? null
+            :<div><span className="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Số lượng user: {this.props.num_user}</div>
         return(
             <div>
                 <h4>Ví của bạn: {this.props.wallet}</h4>
                 <hr/>
-                <span className="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Số dư thực tế: {this.props.kcoin_tt} kcoin
-                <span className="glyphicon glyphicon-check" aria-hidden="true" style={{marginLeft:"20px"}}></span>&nbsp; Số dư khả dụng: {this.props.kcoin_kd} kcoin
+                {xhtml}
+                <div>
+                    <span className="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Số dư thực tế: {this.props.kcoin_tt} kcoin
+                </div>
+                <div>
+                    <span className="glyphicon glyphicon-check" aria-hidden="true"></span>&nbsp; Số dư khả dụng: {this.props.kcoin_kd} kcoin
+                </div>
             </div>
         )
     }
 }
 function mapStateToProps (state) {
-    return {wallet:state.wallet,kcoin_tt:state.kcoin_tt,kcoin_kd:state.kcoin_kd}
+    return {wallet:state.wallet,
+        kcoin_tt:state.kcoin_tt,
+        kcoin_kd:state.kcoin_kd,
+        num_user:state.num_user,
+        is_admin:state.is_admin
+    }
 }
 
 function mapDispatchToProps (dispatch) {

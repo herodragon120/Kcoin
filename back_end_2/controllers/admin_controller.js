@@ -70,7 +70,13 @@ exports.statistical=function (req,res) {
                             tongtienKD = tongtienKD+a.kcoin_kd;
                             tongtienTT = tongtienTT+a.kcoin_kd;
                         })
-                        return res.json({songuoidung:songuoiDung,tongtienKD:tongtienKD,tongtienTT:tongtienTT});
+                        return res.send({
+                            num_user:songuoiDung,
+                            kcoin_kd:tongtienKD,
+                            kcoin_tt:tongtienTT,
+                            wallet:req.session.wallet,
+                            is_admin:req.session.isAdmin
+                        });
                     }
                 }
             })
