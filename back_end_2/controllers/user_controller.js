@@ -110,7 +110,7 @@ exports.xacthuc=function (req,res) {
 }
 exports.dangnhap=function (req,res) {
     if(req.body.wallet == "" || req.body.password == ""){
-        return res.send({message:'TAI_KHOAN_KHONG_DUNG',wallet:null});
+        return res.send({message:'TAI_KHOAN_KHONG_DUNG',wallet:null,is_admin:0});
     }
     else{
         var i = req.body.wallet;
@@ -123,17 +123,24 @@ exports.dangnhap=function (req,res) {
                 }else{
                     if(result !== null){
                         if(result.confirm_code === '0'){
-                            res.send({message:'CHUA_XAC_THUC',wallet:null})
+                            res.send({message:'CHUA_XAC_THUC',wallet:null,is_admin:0})
                         }else{
                             if(password === result.password ){
                                 req.session.isAdmin = result.isAdmin;
                                 req.session.wallet = idwallet;
                                 req.session.save();
-                                res.send({code:200,message:"DANG_NHAP_THANH_CONG",wallet:idwallet});
+                                res.send({
+                                    is_admin:result.isAdmin,
+                                    message:"DANG_NHAP_THANH_CONG",
+                                    wallet:idwallet
+                                });
                             }
                         }
                     }else{
-                        return res.json({code:301,message:'TAI_KHOAN_KHONG_DUNG',wallet:null});
+                        return res.json({
+                            code:301,
+                            message:'TAI_KHOAN_KHONG_DUNG',
+                            wallet:null});
                     }
                 }
             })
@@ -145,12 +152,12 @@ exports.dangnhap=function (req,res) {
 
 };
 exports.dangxuat=function (req,res) {
-    req.session.isAdmin = undefined;
-    req.session.wallet = undefined;
-    res.send('DA_DANG_XUAT');
+    req.session.isAdmin = null;
+    req.session.wallet = null;
+    return res.send({mess:'DANG_XUAT_THANH_CONG'});
 }
 exports.thongtin=function (req,res) {
-    var id=mongoose.Types.ObjectId(req.params.id);
+    var id=mongoose.Types.ObjectId(req.session.wallet);
     User.findOne({'_id' : id},'address kcoin_tt kcoin_kd',function (err,result) {
         if(err){
             res.send({message:err});
@@ -162,12 +169,14 @@ exports.thongtin=function (req,res) {
                     if(er){
                         res.send({message:er});
                     }else{
-                        if(re===null)
-                        {
-                            res.send({message:'KHONG_CO_LS_NAP_TIEN'});
-                        }else{
-                            res.json({listNaptien:re,kcoin_tt:result.kcoin_tt,kcoin_kd:result.kcoin_kd});
-                        }
+                        res.send({
+                            listNaptien:re,
+                            kcoin_tt:result.kcoin_tt,
+                            kcoin_kd:result.kcoin_kd,
+                            wallet:req.session.wallet,
+                            user_address:result.address,
+                            is_admin:req.session.isAdmin
+                        });
                     }
                 })
             }

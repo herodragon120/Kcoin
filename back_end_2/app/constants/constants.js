@@ -1,0 +1,13 @@
+const constants =  {
+    SIGN_IN:"SIGN_IN",
+    SIGN_UP:"SIGN_UP",
+    GET_INFO:"GET_INFO",
+    LOG_OUT:"LOG_OUT",
+    SET_BLOCK:"SET_BLOCK",
+    DETAIL_BLOCK:"DETAIL_BLOCK",
+    GET_USER_LIST:"GET_USER_LIST",
+    GET_TRANSACTION_LIST:"GET_TRANSACTION_LIST",
+    GET_ADDRESS_LIST:"GET_ADDRESS_LIST"
+};
+
+export default constants;

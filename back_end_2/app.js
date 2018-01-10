@@ -22,7 +22,9 @@ mongoose.connect('mongodb://localhost:27017/KCoin',function (err) {
     if(err){console.log("connect error")}
 });
 var app = express();
+app.set('view engine', 'ejs');
 app.set('views','./views');
+app.use(express.static('public'));
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Credentials', true);
     res.header('Access-Control-Allow-Origin', req.headers.origin);
@@ -51,6 +53,9 @@ app.listen(3000,function () {
 });
 
 //app.use(user_controller);
+app.get('/', (req, res) => {
+    res.render('home');
+});
 app.use('/block',blockAPI);
 app.use('/account',userAPI);
 app.use('/transaction',trans);
