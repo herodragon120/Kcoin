@@ -10,7 +10,7 @@ class SendMoneyForm extends React.Component{
                     <div className="form-group">
                         <div className="col-sm-1"></div>
                         <div className="col-sm-offset-2 col-sm-5">
-                            <input type="text"  value={this.props.user_address} disabled style={{width:"493px",height:"40px"}}/>
+                            <input type="text"  value={this.props.user_address} disabled style={{width:"550px",height:"40px"}}/>
                         </div>
                     </div>
 

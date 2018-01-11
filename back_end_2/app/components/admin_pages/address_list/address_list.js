@@ -22,10 +22,11 @@ class AddressList extends React.Component{
         var {address_list_info}=this.props;
         if (address_list_info.list !== undefined){
             for(let i = 0; i < address_list_info.list.length; i++) {
+                let address = address_list_info.list[i].address.substring(0,30)+'....'
                 rowListOfBoard.push(
                     <tr key={i}>
                         <th scope="row" ><a>{address_list_info.list[i].email}</a></th>
-                        <td>{address_list_info.list[i].address}</td>
+                        <td>{address}</td>
                         <td>{address_list_info.list[i].kcoin_tt}</td>
                         <td>{address_list_info.list[i].kcoin_kd}</td>
                     </tr>

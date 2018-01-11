@@ -15,6 +15,7 @@ var Block = require ('./models/Block'),
     adminAPI = require('./routes/API/adminAPI'),
     napTienAPI = require('./routes/API/napTienAPI'),
     ruttienAPI=require('./routes/API/exchangeAPI'),
+    GiaoDichHeThong=require('./models/Transactions'),
     trans = require('./controllers/exchange_controller');
 
 
@@ -271,6 +272,7 @@ ws.onmessage = function (data1) {
                 return ( {code: 301, message: "Hash has been used"});
             }
             else {
+
                 newBlock.save(function (err) {
                     if (err) {
                         return {code: 500, message: err};
@@ -284,6 +286,17 @@ ws.onmessage = function (data1) {
                                     if (result1 === null) {
                                         return {code: 401, message: null}
                                     } else {
+                                        var newgdht=new GiaoDichHeThong();
+                                        newgdht.hash=hash.hash;
+                                        newgdht.time=Math.round(Date.now() / 1000);
+                                        newgdht.from=result1.from;
+                                        newgdht.to=result1.to;
+                                        newgdht.value=result1.value;
+                                        newgdht.save(function (loinang) {
+                                            if(loinang){
+                                                return {code : 500};
+                                            }
+                                        })
                                         User.findOne({'address': result1.from}, function (err1, from) {
                                             if (err1) {
                                                 return {message: err1}
@@ -328,6 +341,17 @@ ws.onmessage = function (data1) {
                                 else {
                                     if(stateRut !== null)
                                     {
+                                        var newgdht=new GiaoDichHeThong();
+                                        newgdht.hash=hash.hash;
+                                        newgdht.time=stateRut.time;
+                                        newgdht.from=stateRut.from;
+                                        newgdht.to=stateRut.to;
+                                        newgdht.value=stateRut.value;
+                                        newgdht.save(function (loinang) {
+                                            if(loinang){
+                                                return {code : 500};
+                                            }
+                                        })
                                         stateRut.state = "HOAN_THANH";
                                         stateRut.save(function (er22) {
                                             if (er22) {
@@ -363,8 +387,6 @@ ws1.onmessage = function (dataTransaction) {
         dataNewTransaction.data.outputs.forEach(function (output) {
             index = index + 1;
             User.findOne({'address': output.lockScript.substring(4)}, function (err, resultNapTien) {
-
-
                 if (resultNapTien !== null) {
                     console.log("có transaction Nạp Tiền");
                     if (resultNapTien.public_key !== dataNewTransaction.data.inputs[0].unlockScript.substring(4, 548)) {

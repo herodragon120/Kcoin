@@ -9,6 +9,7 @@ var user_address = require('./user_reducers/user_address');
 var block = require('./block');
 var err_mess = require('./err_mess');
 var receive_transactions = require('./user_reducers/receive_transactions');
+var listRuttien = require('./user_reducers/listRuttien')
 var detail_block = require('./detail_block')
 var transaction_list_info = require('./admin_reduces/transaction_list_info')
 var user_list_info = require('./admin_reduces/user_list_info')
@@ -18,7 +19,7 @@ const reducer = redux.combineReducers({
     is_signin, wallet, kcoin_tt, kcoin_kd,
     receive_transactions, block, err_mess,
     detail_block,user_address,is_admin,transaction_list_info,
-    user_list_info,address_list_info,num_user
+    user_list_info,address_list_info,num_user,listRuttien
 });
 
 module.exports = reducer;

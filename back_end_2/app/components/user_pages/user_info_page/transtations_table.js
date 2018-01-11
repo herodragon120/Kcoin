@@ -11,12 +11,34 @@ class TransactionTable extends React.Component{
         if(receive_transactions != null){
             for(let j = 0; j < receive_transactions.length; j++) {
                 let i =  receive_transactions.length - j -1
+                let hash = receive_transactions[i].hash.substring(0,20)+'....'
+                let from = receive_transactions[i].from.substring(0,20)+'....'
                 rowListOfBoard.push(
                     <tr key={i}>
-                        <th scope="row" >{receive_transactions[i].hash}</th>
-                        <td>{receive_transactions[i].from}</td>
+                        <th scope="row" >{hash}</th>
+                        <td>{from}</td>
                         <td>{receive_transactions[i].value}</td>
                         <td>{receive_transactions[i].index}</td>
+                    </tr>
+                );
+            }
+        }
+        return rowListOfBoard;
+    }
+    drawTable2(){
+        let rowListOfBoard=[];
+        let {listRuttien}=this.props;
+        if(listRuttien != null){
+            for(let j = 0; j < listRuttien.length; j++) {
+                let i =  listRuttien.length - j -1
+                let hash = listRuttien[i].hash.substring(0,20)+'....'
+                let to = listRuttien[i].to.substring(0,20)+'....'
+                rowListOfBoard.push(
+                    <tr key={i}>
+                        <th scope="row" >{hash}</th>
+                        <td>{to}</td>
+                        <td>{listRuttien[i].value}</td>
+                        <td>{listRuttien[i].index}</td>
                     </tr>
                 );
             }
@@ -26,7 +48,7 @@ class TransactionTable extends React.Component{
     componentWillMount(){
         this.props.getInfo().then(()=>{
             if(this.props.is_login===false)
-                this.props.history.push('/signin')
+                this.props.history.push('/')
         })
     }
     render(){
@@ -47,12 +69,13 @@ class TransactionTable extends React.Component{
                                                 <thead>
                                                 <tr>
                                                     <th>Hash</th>
-                                                    <th>Địa chỉ gửi</th>
+                                                    <th>Địa chỉ nhận</th>
                                                     <th>Số tiền</th>
                                                     <th>Output index</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
+                                                {this.drawTable2()}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -88,7 +111,10 @@ class TransactionTable extends React.Component{
 }
 
 function mapStateToProps (state) {
-    return {receive_transactions:state.receive_transactions,is_login:state.is_login}
+    return {receive_transactions:state.receive_transactions,
+        is_login:state.is_login,
+        listRuttien:state.listRuttien
+    }
 }
 function mapDispatchToProps (dispatch) {
     return {

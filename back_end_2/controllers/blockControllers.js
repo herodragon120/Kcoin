@@ -14,7 +14,6 @@ exports.listblock=function (req,res) {
                 var mang=[];
                 for(var i=result.length-1;i>=result.length-10;i--)
                 {
-                    console.log(result[i].timestamp);
                     mang.push({
                         hash:result[i].hash,
                         nonce:result[i].nonce,

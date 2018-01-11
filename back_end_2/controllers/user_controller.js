@@ -6,8 +6,10 @@ const ursa = require('ursa');
 const _ = require('lodash');
 var hbs = require('nodemailer-express-handlebars');
 var ruttien = require('../models/Exchange');
+var hethong=require('../models/Transactions');
 
 const HASH_ALGORITHM = 'sha256';
+
 
 
 let hash = function (data) {
@@ -117,7 +119,6 @@ exports.dangnhap = function (req, res) {
     }
     else {
         var i = req.body.wallet;
-        console.log(i);
         if (i.length == 24) {
             var idwallet = mongoose.Types.ObjectId(req.body.wallet);
             var password = crypto.createHash('md5').update(req.body.password).digest('hex');
@@ -161,215 +162,7 @@ exports.dangxuat = function (req, res) {
     req.session.wallet = null;
     return res.send({mess: 'DANG_XUAT_THANH_CONG'});
 }
-exports.thongtin2 = function (req, res) {
-    var id = mongoose.Types.ObjectId(req.session.wallet);
-    if (req.session.isAdmin === 0) {
-        User.findOne({'_id': id}, 'address kcoin_tt kcoin_kd', function (err, result) {
-            if (err) {
-                res.send({message: err});
-            } else {
-                if (result === null) {
-                    res.send({message: 'USER_KHONG_CO'});
-                } else {
-                    naptien.find({'to': result.address}, function (er, re) {
-                        if (er) {
-                            res.send({message: er});
-                        } else {
-                            ruttien.find({'from': result.address}, function (loi, ketqua) {
-                                if (loi) {
-                                    res.send({message: loi});
-                                } else {
-                                    res.send({
-                                        num_user: 0,
-                                        listNaptien: re,
-                                        listRuttien: ketqua,
-                                        kcoin_tt: result.kcoin_tt,
-                                        kcoin_kd: result.kcoin_kd,
-                                        wallet: req.session.wallet,
-                                        user_address: result.address,
-                                        is_admin: req.session.isAdmin
-                                    });
-                                }
-                            })
-
-                        }
-                    })
-                }
-            }
-        })
-    }
-    else {
-        User.find({}, 'email kcoin_tt kcoin_kd', function (err, result) {
-            if (err) {
-                return res.send(err);
-            } else {
-                if (result === null) {
-                    return res.send(null);
-                } else {
-                    var tongtienTT = 0;
-                    var tongtienKD = 0;
-                    var songuoiDung = result.length;
-                    result.forEach(a => {
-                        tongtienKD = tongtienKD + a.kcoin_kd;
-                        tongtienTT = tongtienTT + a.kcoin_kd;
-                    })
-                    User.findOne({'_id': id}, 'address kcoin_tt kcoin_kd', function (err, user) {
-                        if (err) {
-                            res.send({message: err});
-                        } else {
-                            if (user === null) {
-                                res.send({message: 'USER_KHONG_CO'});
-                            } else {
-                                naptien.find({'to': user.address}, function (er, re) {
-                                    if (er) {
-                                        res.send({message: er});
-                                    } else {
-                                        ruttien.find({'from': result.address}, function (loi, ketqua) {
-                                            if (loi) {
-                                                res.send({message: loi});
-                                            } else {
-                                                var mang = [];
-                                                ruttien.find({}, function (loi1, ketqua1) {
-                                                    if (loi1) {
-                                                        res.send({message: loi1});
-                                                    } else {
-                                                        mang.push(ketqua1);
-                                                        naptien.find({}, function (loi2, ketqua2) {
-                                                            if (loi2) {
-                                                                res.send({message: loi2});
-                                                            } else {
-                                                                mang.push(ketqua2);
-                                                                res.send({
-                                                                    num_user: 0,
-                                                                    listNaptien: re,
-                                                                    listRuttien: ketqua,
-                                                                    listGiaodich: mang,
-                                                                    kcoin_tt: result.kcoin_tt,
-                                                                    kcoin_kd: result.kcoin_kd,
-                                                                    wallet: req.session.wallet,
-                                                                    user_address: result.address,
-                                                                    is_admin: req.session.isAdmin
-                                                                });
-                                                            }
-                                                        })
-                                                    }
-                                                })
-                                            }
-                                        })
-                                    }
-                                })
-                            }
-                        }
-                    })
-                }
-            }
-
-        })
-    }
-
-}
-exports.thongtin3 = function (req, res) {
-    var id = mongoose.Types.ObjectId(req.session.wallet);
-    User.findOne({'_id': id}, 'address kcoin_tt kcoin_kd', function (err, result) {
-        if (err) {
-            res.send({message: err});
-        }
-        else {
-            if (result === null) {
-                res.send({message: 'USER_KHONG_CO'});
-                if (req.session.isAdmin === 0) {
-                    User.findOne({'_id': id}, 'address kcoin_tt kcoin_kd', function (err, result) {
-                        if (err) {
-                            res.send({message: err});
-                        } else {
-                            naptien.find({'to': result.address}, function (er, re) {
-                                if (er) {
-                                    res.send({message: er});
-                                } else {
-                                    res.send({
-                                        listNaptien: re,
-                                        kcoin_tt: result.kcoin_tt,
-                                        kcoin_kd: result.kcoin_kd,
-                                        wallet: req.session.wallet,
-                                        user_address: result.address,
-                                        is_admin: req.session.isAdmin
-                                    });
-                                }
-                            })
-                            if (result === null) {
-                                res.send({message: 'USER_KHONG_CO'});
-                            } else {
-                                naptien.find({'to': result.address}, function (er, re) {
-                                    if (er) {
-                                        res.send({message: er});
-                                    } else {
-                                        res.send({
-                                            num_user: 0,
-                                            listNaptien: re,
-                                            kcoin_tt: result.kcoin_tt,
-                                            kcoin_kd: result.kcoin_kd,
-                                            wallet: req.session.wallet,
-                                            user_address: result.address,
-                                            is_admin: req.session.isAdmin
-                                        });
-                                    }
-                                })
-                            }
-                        }
-                    })
-                }
-                else
-                {
-                    User.find({}, 'email kcoin_tt kcoin_kd', function (err, result) {
-                        if (err) {
-                            return res.send(err);
-                        } else {
-                            if (result === null) {
-                                return res.send(null);
-                            } else {
-                                var tongtienTT = 0;
-                                var tongtienKD = 0;
-                                var songuoiDung = result.length;
-                                result.forEach(a => {
-                                    tongtienKD = tongtienKD + a.kcoin_kd;
-                                    tongtienTT = tongtienTT + a.kcoin_kd;
-                                })
-                                User.findOne({'_id': id}, 'address kcoin_tt kcoin_kd', function (err, user) {
-                                    if (err) {
-                                        res.send({message: err});
-                                    } else {
-                                        if (user === null) {
-                                            res.send({message: 'USER_KHONG_CO'});
-                                        } else {
-                                            naptien.find({'to': user.address}, function (er, re) {
-                                                if (er) {
-                                                    res.send({message: er});
-                                                } else {
-                                                    res.send({
-                                                        num_user: songuoiDung,
-                                                        kcoin_kd: tongtienKD,
-                                                        kcoin_tt: tongtienTT,
-                                                        listNaptien: re,
-                                                        wallet: req.session.wallet,
-                                                        user_address: user.address,
-                                                        is_admin: req.session.isAdmin
-                                                    });
-                                                }
-                                            })
-                                        }
-                                    }
-                                })
-                            }
-                        }
-
-                    })
-                }
-            }
-        }
-    })
-    }
-
-exports.thongtin=function (req,res) {
+exports.thongtin2=function (req,res) {
     var id=mongoose.Types.ObjectId(req.session.wallet);
     if(req.session.isAdmin===0){
         User.findOne({'_id' : id},'address kcoin_tt kcoin_kd',function (err,result) {
@@ -379,19 +172,37 @@ exports.thongtin=function (req,res) {
                 if(result===null){
                     res.send({message:'USER_KHONG_CO'});
                 }else{
+                    console.log(result.kcoin_tt,'nguoi thuong');
                     naptien.find({'to':result.address},function (er,re) {
                         if(er){
                             res.send({message:er});
                         }else{
-                            res.send({
-                                num_user:0,
-                                listNaptien:re,
-                                kcoin_tt:result.kcoin_tt,
-                                kcoin_kd:result.kcoin_kd,
-                                wallet:req.session.wallet,
-                                user_address:result.address,
-                                is_admin:req.session.isAdmin
-                            });
+                            ruttien.find({'from': result.address},function (loi,kq) {
+                                if(loi){
+                                    res.send({message:loi});
+                                }else{
+                                    var state='KHOI_TAO';
+                                    ruttien.find({'from': result.address, 'state':state },function (loioi,kqkq) {
+                                        if(loioi){
+                                            res.send({message:loioi})
+                                        }else{
+                                            res.send({
+                                                num_user:0,
+                                                listNaptien:re,
+                                                listRuttien:kq,
+                                                listRuttienKhoitao:kqkq,
+                                                kcoin_tt:result.kcoin_tt,
+                                                kcoin_kd:result.kcoin_kd,
+                                                wallet:req.session.wallet,
+                                                user_address:result.address,
+                                                is_admin:req.session.isAdmin
+                                            });
+                                        }
+
+                                    })
+                                }
+                            })
+
                         }
                     })
                 }
@@ -403,42 +214,58 @@ exports.thongtin=function (req,res) {
             if(err){
                 return res.send(err);
             }else{
-                if(result === null){
-                    return res.send(null);
-                }else{
                     var tongtienTT = 0;
                     var tongtienKD = 0;
                     var songuoiDung = result.length;
                     result.forEach(a => {
                         tongtienKD = tongtienKD+a.kcoin_kd;
-                        tongtienTT = tongtienTT+a.kcoin_kd;
+                        tongtienTT = tongtienTT+a.kcoin_tt;
                     })
-                    User.findOne({'_id' : id},'address kcoin_tt kcoin_kd',function (err,user) {
-                        if(err){
-                            res.send({message:err});
+                User.findOne({'_id' : id},'address kcoin_tt kcoin_kd',function (err,user) {
+                    if(err){
+                        res.send({message:err});
+                    }else{
+                        if(user===null){
+                            res.send({message:'USER_KHONG_CO'});
                         }else{
-                            if(user===null){
-                                res.send({message:'USER_KHONG_CO'});
-                            }else{
-                                naptien.find({'to':user.address},function (er,re) {
-                                    if(er){
-                                        res.send({message:er});
-                                    }else{
-                                        res.send({
-                                            num_user:songuoiDung,
-                                            kcoin_kd:tongtienKD,
-                                            kcoin_tt:tongtienTT,
-                                            listNaptien:re,
-                                            wallet:req.session.wallet,
-                                            user_address:user.address,
-                                            is_admin:req.session.isAdmin
-                                        });
-                                    }
-                                })
-                            }
+                            console.log('kcoin_tt:' +user.kcoin_tt);
+                            console.log('kcoin_kd:' +user.kcoin_kd);
+                            naptien.find({'to':user.address},function (er,re) {
+                                if(er){
+                                    res.send({message:er});
+                                }else{
+                                    ruttien.find({'from': user.address},function (loi,kq) {
+                                        if(loi){
+                                            res.send({message:loi});
+                                        }else{
+                                            var state='KHOI_TAO';
+                                            ruttien.find({'from': user.address, 'state':state},function (l,r) {
+                                                if(l){
+                                                    res.send({message:l});
+                                                }else{
+                                                    res.send({
+                                                        num_user:songuoiDung,
+                                                        kcoin_kdhethong:tongtienKD,
+                                                        kcoin_tthethong:tongtienTT,
+                                                        kcoin_tt:user.kcoin_tt,
+                                                        kcoin_kd:user.kcoin_kd,
+                                                        listNaptien:re,
+                                                        listRuttien:kq,
+                                                        listRuttienKhoitao:r,
+                                                        wallet:req.session.wallet,
+                                                        user_address:user.address,
+                                                        is_admin:req.session.isAdmin
+                                                    });
+                                                }
+                                            })
+
+                                        }
+                                    })
+                                }
+                            })
                         }
-                    })
-                }
+                    }
+                })
             }
 
         })

@@ -37,7 +37,7 @@ class RechargeMoneyForm extends React.Component{
                     </div>
                     <div className="form-group">
                         <div className="col-sm-1"></div>
-                        <div className="col-sm-offset-2 col-sm-5">
+                        <div className="col-sm-offset-2 col-sm-6">
                             <button type="submit" className="btn btn-default">Chuyển Tiền</button>
                         </div>
                     </div>

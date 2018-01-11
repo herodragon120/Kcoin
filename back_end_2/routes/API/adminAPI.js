@@ -11,4 +11,7 @@ r.get('/listaddress/:page',function (req,res) {
 r.get('/thongso',function (req,res) {
     admin.statistical(req,res);
 })
+r.get('/listtrans/:page',function (req,res) {
+    admin.listTransactions(req,res);
+})
 module.exports = r;

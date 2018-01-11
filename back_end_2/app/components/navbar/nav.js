@@ -10,40 +10,41 @@ class Nav extends React.Component{
         this.props.history.push('/')
     }
     render(){
-        let xhtml = this.props.is_signin?
+        let xhtml3 = this.props.is_admin===1?
             <ul className="nav navbar-nav navbar-right">
-                <li><a href="#" onClick={this.logOut.bind(this)}><span className="glyphicon glyphicon-log-out"></span> Đăng Xuất</a></li>
+                <li><Link to="/admin/transaction" className="page-scroll">Giao dịch</Link></li>
+                <li><Link to="/admin/rechargemoney" className="page-scroll">Rút tiền</Link></li>
+                <li><Link to="/admin/receivemoney" className="page-scroll">Nhận tiền</Link></li>
+                <li><Link to="/admin/userlist" className="page-scroll">QL Người dùng</Link></li>
+                <li><Link to="/admin/transactionlist" className="page-scroll">QL Giao dịch</Link></li>
+                <li><Link to="/admin/addresslist" className="page-scroll">QL Địa chỉ</Link></li>
+                <li><a href="#" className="page-scroll" onClick={this.logOut.bind(this)}>Đăng xuất</a></li>
             </ul>
             :
             <ul className="nav navbar-nav navbar-right">
-                <li><Link to="/signup"><span className="glyphicon glyphicon-user"></span> Đăng Ký</Link></li>
-                <li><Link to="/signin"><span className="glyphicon glyphicon-log-in"></span> Đăng Nhập</Link></li>
+                <li><Link to="/user/transaction" className="page-scroll">Giao dịch</Link></li>
+                <li><Link to="/user/rechargemoney" className="page-scroll">Rút tiền</Link></li>
+                <li><Link to="/user/receivemoney" className="page-scroll">Nhận tiền</Link></li>
+                <li><a href="#" className="page-scroll" onClick={this.logOut.bind(this)}>Đăng xuất</a></li>
             </ul>
-        let xhtml2 = ""
-        if(this.props.is_signin){
-            xhtml2 = this.props.is_admin===1 ? <li><Link to="/admin/info">Quản lý tài khoản</Link></li>
-                : <li><Link to="/user/info">Quản lý tài khoản</Link></li>
-        }
-        if(this.props.is_admin===1 )
-            xhtml2 = <li><Link to="/admin/info">Quản lý tài khoản</Link></li>
-        else{
-            xhtml2 = this.props.is_signin?<li><Link to="/user/info">Quản lý tài khoản</Link></li>
-                :null
-        }
         return(
-            <nav className="navbar navbar-inverse">
-                <div className="container-fluid">
-                    <div className="navbar-header">
-                        <Link className="navbar-brand" to="/">KBLOCKCHAIN</Link>
+            <div>
+                <nav id="menu" className="navbar navbar-default navbar-fixed-top" style={{background:"#3e3e3e"}}>
+                    <div className="container">
+                        <div className="navbar-header">
+                            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span className="sr-only">Toggle navigation</span> <span className="icon-bar"></span>
+                                <span className="icon-bar"></span> <span className="icon-bar"></span>
+                            </button>
+                            <a className="navbar-brand" style={{color:"#fff"}}><i className="fa fa-sun-o"></i> Blockchain<strong></strong></a>
+                        </div>
+                        <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            {xhtml3}
+                        </div>
                     </div>
-                    <ul className="nav navbar-nav">
-                        <li><Link to="/">Trang Chủ</Link></li>
-                        <li><Link to="/">Thông Tin</Link></li>
-                        {xhtml2}
-                    </ul>
-                    {xhtml}
-                </div>
-            </nav>
+                </nav>
+            </div>
+
         )
     }
 }

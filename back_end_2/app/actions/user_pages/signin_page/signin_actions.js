@@ -5,6 +5,7 @@ function signinRequest(wallet,pass) {
     return (dispatch)=>{
         return axios.post('/account/signin',{wallet:wallet.value,password:pass.value})
             .then(res=>{
+                console.log(res)
                 dispatch(signIn(res.data.wallet,res.data.message,res.data.is_admin))
             })
             .catch(err=>{

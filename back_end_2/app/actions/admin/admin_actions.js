@@ -37,5 +37,23 @@ function getAddressListRequest(page) {
 function getAddressList(address_list_info) {
     return {type:cst.GET_ADDRESS_LIST,address_list_info}
 }
+function getTransactionListRequest(page) {
+    return (dispatch)=>{
+        return axios.get('/admin/listtrans/' + page.toString())
+            .then(res=>{
+                console.log("fdkkjfdjkfjdjfkd")
+                console.log(res)
+                dispatch(getTransacionList(res.data.trans_list_info))
+                dispatch(signIn(res.data.wallet,"DANG_NHAP_THANH_CONG",res.data.is_admin))
 
-module.exports = {getUserListRequest,getAddressListRequest}
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+    }
+}
+
+function getTransacionList(trans_list_info) {
+    return {type:cst.GET_TRANSACTION_LIST,trans_list_info}
+}
+module.exports = {getUserListRequest,getAddressListRequest,getTransactionListRequest}

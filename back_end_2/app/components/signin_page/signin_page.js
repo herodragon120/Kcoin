@@ -4,13 +4,7 @@ import SigninForm from './signin_form'
 class SignIn extends React.Component{
     render(){
         return(
-            <div>
-                <div className="col-md-3"></div>
-                <div className="col-md-6">
-                    <SigninForm/>
-                </div>
-                <div className="col-md-3"></div>
-            </div>
+            <SigninForm/>
         );
     }
 }

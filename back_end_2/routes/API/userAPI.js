@@ -11,7 +11,7 @@ r.post('/signup',function (req,res) {
 })
 
 r.get('/getinfo',function (req,res) {
-    user.thongtin(req,res);
+    user.thongtin2(req,res);
 })
 
 r.get('/xacthuc/:ten',function (req,res) {
